@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Benchmark Global: Fulfillment para Canal D2C — MELI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ml-yellow:#FFE600;
+  --ml-black:#1A1A1A;
+  --ml-gray-bg:#F1F1F1;
+  --ml-gray-2:#E8E8E8;
+  --ml-gray-3:#9A9A9A;
+  --ml-gray-4:#5A5A5A;
+  --ink:#1A1A1A;
+  --amazon:#FF9900;
+  --walmart:#0071CE;
+  --shopify:#96BF48;
+  --zeos:#FF6900;
+  --jd:#CC0000;
+  --cainiao:#F5630A;
+  --cubbo:#6C3CE1;
+  --ekart:#F7941D;
+  --byrd:#2ECC71;
+  --green:#1A8754;
+  --green-bg:#E6F4EC;
+  --amber:#B57900;
+  --amber-bg:#FFF4D6;
+  --red:#C0392B;
+  --red-bg:#FBE6E3;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  width:100vw;height:100vh;overflow:hidden;
+  background:#000;
+  font-family:'DM Sans',sans-serif;color:var(--ink);
+}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{
+  position:absolute;inset:0;width:100vw;height:100vh;
+  display:none;
+  padding:3.2vh 3.2vw;
+  background:var(--ml-gray-bg);
+  flex-direction:column;
+}
+.slide.active{display:flex}
+
+/* ---------- SHARED ---------- */
+.pill{
+  display:inline-flex;align-items:center;gap:0.5vw;
+  background:var(--ml-yellow);color:var(--ml-black);
+  font-family:'DM Mono',monospace;font-weight:500;
+  font-size:0.78vw;letter-spacing:0.12em;text-transform:uppercase;
+  padding:0.6vh 1vw;border-radius:999px;
+}
+.pill.dark{background:#000;color:var(--ml-yellow)}
+.pill.ghost{background:transparent;color:var(--ml-gray-4);border:1px solid var(--ml-gray-3)}
+.h1{font-family:'Outfit',sans-serif;font-weight:800;font-size:3.6vw;line-height:1.02;letter-spacing:-0.02em;color:var(--ml-black)}
+.h2{font-family:'Outfit',sans-serif;font-weight:700;font-size:2.4vw;line-height:1.05;letter-spacing:-0.01em;color:var(--ml-black)}
+.h3{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.4vw;line-height:1.1;color:var(--ml-black)}
+.body{font-family:'DM Sans',sans-serif;font-weight:400;font-size:0.92vw;line-height:1.45;color:var(--ml-gray-4)}
+.small{font-family:'DM Sans',sans-serif;font-size:0.78vw;line-height:1.4;color:var(--ml-gray-4)}
+.mono{font-family:'DM Mono',monospace}
+.label{font-family:'DM Mono',monospace;font-size:0.72vw;letter-spacing:0.18em;text-transform:uppercase;color:var(--ml-gray-3)}
+.card{background:#fff;border-radius:1.2vw;padding:2.4vh 1.8vw;box-shadow:0 1px 0 rgba(0,0,0,0.03);border:1px solid #ECECEC}
+
+/* Slide header */
+.slide-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2.2vh}
+.slide-title-block{display:flex;flex-direction:column;gap:1vh;flex:1}
+.slide-title-block .pill{align-self:flex-start}
+.slide-meta{display:flex;flex-direction:column;align-items:flex-end;gap:0.6vh}
+.brand-bar{display:flex;align-items:center;gap:0.6vw}
+.brand-bar .ml-tag{
+  background:var(--ml-yellow);color:var(--ml-black);
+  font-family:'Outfit';font-weight:800;font-size:0.85vw;
+  padding:0.5vh 0.7vw;border-radius:0.4vw;letter-spacing:-0.01em;
+}
+.brand-bar .meli-name{font-family:'Outfit';font-weight:700;font-size:0.9vw;color:var(--ml-black)}
+.brand-bar .deck-tag{font-family:'DM Mono';font-size:0.72vw;color:var(--ml-gray-3);letter-spacing:0.1em}
+
+/* Slide footer */
+.slide-footer{
+  position:absolute;left:3.2vw;right:3.2vw;bottom:2vh;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'DM Mono';font-size:0.72vw;color:var(--ml-gray-3);letter-spacing:0.1em;
+}
+.slide.dark .slide-footer{color:rgba(255,255,255,0.4)}
+
+/* ---------- SLIDE 1 — TITLE ---------- */
+.slide.dark{background:#0A0A0A;color:#fff}
+.slide-title{justify-content:center;position:relative;overflow:hidden}
+.slide-title .grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,230,0,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,230,0,0.04) 1px,transparent 1px);
+  background-size:4vw 4vw;
+}
+.slide-title .blob{
+  position:absolute;width:42vw;height:42vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,230,0,0.18) 0%,transparent 60%);
+  filter:blur(40px);
+}
+.slide-title .blob.b1{top:-15vw;right:-10vw}
+.slide-title .blob.b2{bottom:-20vw;left:-15vw}
+.title-content{position:relative;z-index:2;max-width:80vw}
+.title-eyebrow{
+  display:inline-flex;gap:0.6vw;align-items:center;
+  font-family:'DM Mono';font-size:0.85vw;letter-spacing:0.2em;
+  color:var(--ml-yellow);text-transform:uppercase;margin-bottom:3vh;
+}
+.title-eyebrow::before{content:"";width:3vw;height:1px;background:var(--ml-yellow)}
+.title-main{
+  font-family:'Outfit';font-weight:800;font-size:6.8vw;line-height:0.96;
+  letter-spacing:-0.03em;color:#fff;margin-bottom:2.5vh;
+}
+.title-main .yellow{color:var(--ml-yellow)}
+.title-sub{
+  font-family:'DM Sans';font-weight:300;font-size:1.6vw;line-height:1.3;
+  color:rgba(255,255,255,0.7);max-width:55vw;margin-bottom:5vh;
+}
+.title-meta{
+  display:flex;gap:3vw;border-top:1px solid rgba(255,255,255,0.15);
+  padding-top:2.2vh;
+}
+.title-meta div{display:flex;flex-direction:column;gap:0.3vh}
+.title-meta .l{font-family:'DM Mono';font-size:0.72vw;letter-spacing:0.2em;color:rgba(255,255,255,0.4);text-transform:uppercase}
+.title-meta .v{font-family:'Outfit';font-weight:600;font-size:1vw;color:#fff}
+
+/* ---------- SLIDE 2 — WHY THIS MATTERS ---------- */
+.s2-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:2vw;flex:1;min-height:0}
+.s2-left{display:flex;flex-direction:column;justify-content:center;padding-right:1vw}
+.s2-statement{
+  font-family:'Outfit';font-weight:700;font-size:3vw;line-height:1.05;
+  letter-spacing:-0.02em;color:var(--ml-black);margin-bottom:3vh;
+}
+.s2-statement em{
+  font-style:normal;background:var(--ml-yellow);
+  padding:0 0.4vw;border-radius:0.3vw;
+}
+.s2-body{font-family:'DM Sans';font-size:1vw;line-height:1.5;color:var(--ml-gray-4);max-width:32vw}
+.s2-right{display:flex;flex-direction:column;gap:1.2vh}
+.s2-card{
+  background:#fff;border-radius:1vw;padding:1.8vh 1.4vw;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.2vw;
+  border:1px solid #ECECEC;
+}
+.s2-card .num{
+  font-family:'Outfit';font-weight:800;font-size:1.6vw;color:var(--ml-black);
+  width:2.6vw;text-align:center;
+}
+.s2-card .txt .t{font-family:'Outfit';font-weight:600;font-size:1vw;color:var(--ml-black);margin-bottom:0.3vh}
+.s2-card .txt .s{font-family:'DM Sans';font-size:0.82vw;color:var(--ml-gray-4);line-height:1.35}
+.s2-card .badge{
+  font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.1em;
+  padding:0.4vh 0.6vw;border-radius:0.3vw;text-transform:uppercase;font-weight:500;
+}
+
+/* ---------- SLIDE 3 — GLOBAL MAP ---------- */
+.s3-wrap{flex:1;display:grid;grid-template-rows:auto 1fr;gap:2vh;min-height:0}
+.s3-intro{font-family:'DM Sans';font-size:0.95vw;color:var(--ml-gray-4);max-width:55vw}
+.s3-map{
+  flex:1;background:#fff;border-radius:1vw;padding:2.2vh 1.8vw;
+  position:relative;border:1px solid #ECECEC;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vw;
+}
+.region{
+  display:flex;flex-direction:column;gap:1vh;
+  border-left:3px solid var(--ml-black);padding-left:1vw;
+}
+.region.americas{border-color:#0071CE}
+.region.europe{border-color:#FF6900}
+.region.asia{border-color:#CC0000}
+.region.latam{border-color:#FFE600}
+.region .r-name{font-family:'Outfit';font-weight:700;font-size:1.1vw;color:var(--ml-black)}
+.region .r-tag{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.15em;color:var(--ml-gray-3);text-transform:uppercase;margin-top:-0.3vh;margin-bottom:0.5vh}
+.player-chip{
+  display:flex;flex-direction:column;gap:0.3vh;
+  background:#FAFAFA;border-radius:0.6vw;padding:1.2vh 1vw;
+  border:1px solid #EFEFEF;border-left:3px solid #ccc;
+}
+.player-chip.amazon{border-left-color:var(--amazon)}
+.player-chip.walmart{border-left-color:var(--walmart)}
+.player-chip.shopify{border-left-color:var(--shopify)}
+.player-chip.zeos{border-left-color:var(--zeos)}
+.player-chip.byrd{border-left-color:var(--byrd)}
+.player-chip.jd{border-left-color:var(--jd)}
+.player-chip.cainiao{border-left-color:var(--cainiao)}
+.player-chip.ekart{border-left-color:var(--ekart)}
+.player-chip.cubbo{border-left-color:var(--cubbo)}
+.player-chip .pn{font-family:'Outfit';font-weight:700;font-size:0.95vw;color:var(--ml-black);display:flex;justify-content:space-between;align-items:center}
+.player-chip .pn .sig{font-size:0.85vw}
+.player-chip .pd{font-family:'DM Sans';font-size:0.78vw;color:var(--ml-gray-4);line-height:1.35}
+
+/* ---------- SLIDE 4 — AMAZON STEPS ---------- */
+.s4-steps{
+  flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;
+  gap:1.2vw 0.8vw;align-content:center;
+}
+.step-card{
+  background:#fff;border-radius:0.9vw;padding:1.6vh 1.2vw;
+  border:1px solid #EAEAEA;position:relative;
+  display:flex;flex-direction:column;gap:0.6vh;
+  border-top:3px solid var(--amazon);
+}
+.step-card .step-num{
+  position:absolute;top:-1.1vh;right:1vw;
+  background:var(--amazon);color:#fff;
+  font-family:'DM Mono';font-weight:500;font-size:0.78vw;
+  width:2.2vw;height:2.2vw;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.step-card .step-icon{font-size:1.6vw;margin-bottom:0.3vh}
+.step-card .step-title{font-family:'Outfit';font-weight:700;font-size:0.95vw;color:var(--ml-black);line-height:1.15}
+.step-card .step-body{font-family:'DM Sans';font-size:0.78vw;color:var(--ml-gray-4);line-height:1.35}
+.s4-flow-note{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:1.2vh;padding:1.2vh 1.4vw;
+  background:#fff;border-radius:0.6vw;border:1px dashed #D5D5D5;
+}
+.s4-flow-note .nl{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.15em;color:var(--ml-gray-3);text-transform:uppercase}
+.s4-flow-note .nv{font-family:'Outfit';font-weight:600;font-size:0.92vw;color:var(--ml-black)}
+.s4-flow-note .nv strong{color:var(--amazon)}
+
+/* ---------- SLIDE 5 — AMAZON NUMBERS ---------- */
+.s5-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:1.6vw;flex:1;min-height:0}
+.s5-left{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1vw}
+.metric{
+  background:#fff;border-radius:0.9vw;padding:2vh 1.4vw;
+  border:1px solid #EAEAEA;display:flex;flex-direction:column;justify-content:space-between;
+}
+.metric.dark{background:#0A0A0A;color:#fff;border-color:#0A0A0A}
+.metric .m-l{font-family:'DM Mono';font-size:0.72vw;letter-spacing:0.15em;color:var(--ml-gray-3);text-transform:uppercase}
+.metric.dark .m-l{color:rgba(255,255,255,0.5)}
+.metric .m-v{font-family:'Outfit';font-weight:800;font-size:3.6vw;line-height:0.95;letter-spacing:-0.02em;color:var(--amazon)}
+.metric.dark .m-v{color:var(--ml-yellow)}
+.metric .m-d{font-family:'DM Sans';font-size:0.82vw;color:var(--ml-gray-4);line-height:1.35;margin-top:0.6vh}
+.metric.dark .m-d{color:rgba(255,255,255,0.7)}
+.s5-right{display:flex;flex-direction:column;gap:1vh}
+.cost-table{background:#fff;border-radius:0.9vw;border:1px solid #EAEAEA;overflow:hidden}
+.cost-table .row{display:grid;grid-template-columns:1.5fr 1fr 1fr;padding:1.1vh 1.2vw;border-bottom:1px solid #F0F0F0;font-family:'DM Sans';font-size:0.85vw}
+.cost-table .row.head{background:#FAFAFA;font-family:'DM Mono';font-size:0.72vw;letter-spacing:0.12em;text-transform:uppercase;color:var(--ml-gray-3)}
+.cost-table .row:last-child{border-bottom:none}
+.cost-table .row .c{font-family:'DM Mono';color:var(--ml-black);font-weight:500}
+.cost-table .label-cell{font-family:'Outfit';font-weight:600;color:var(--ml-black)}
+.invest-bar{
+  background:#0A0A0A;color:#fff;border-radius:0.9vw;padding:1.6vh 1.4vw;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.2vw;
+}
+.invest-bar .bl{font-family:'Outfit';font-weight:700;font-size:1vw;color:#fff}
+.invest-bar .bs{font-family:'DM Sans';font-size:0.78vw;color:rgba(255,255,255,0.7);line-height:1.4}
+.invest-bar .bv{
+  font-family:'DM Mono';font-size:0.78vw;letter-spacing:0.1em;
+  background:#1A8754;color:#fff;padding:0.6vh 0.9vw;border-radius:0.4vw;
+}
+.proscons{display:grid;grid-template-columns:1fr 1fr;gap:0.8vw}
+.proscons .pcbox{background:#fff;border-radius:0.7vw;padding:1.2vh 1vw;border:1px solid #EAEAEA}
+.proscons .pcbox h4{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6vh}
+.proscons .pros h4{color:var(--green)}
+.proscons .cons h4{color:var(--red)}
+.proscons ul{list-style:none}
+.proscons li{font-family:'DM Sans';font-size:0.78vw;color:var(--ml-gray-4);padding:0.2vh 0;line-height:1.3}
+.proscons li::before{content:"›";color:inherit;margin-right:0.4vw;font-family:'DM Mono'}
+
+/* ---------- SLIDE 6 — WALMART + SHOPIFY ---------- */
+.s6-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6vw;flex:1;min-height:0}
+.player-deep{
+  background:#fff;border-radius:1vw;padding:2vh 1.6vw;
+  border:1px solid #EAEAEA;display:flex;flex-direction:column;gap:1.2vh;
+  border-top:5px solid #ccc;position:relative;
+}
+.player-deep.walmart{border-top-color:var(--walmart)}
+.player-deep.shopify{border-top-color:var(--shopify)}
+.pd-head{display:flex;justify-content:space-between;align-items:flex-start}
+.pd-head .left h3{font-family:'Outfit';font-weight:800;font-size:1.6vw;color:var(--ml-black);line-height:1}
+.pd-head .left .sub{font-family:'DM Sans';font-size:0.85vw;color:var(--ml-gray-4);margin-top:0.4vh}
+.pd-pill{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.12em;padding:0.5vh 0.7vw;border-radius:0.3vw;text-transform:uppercase;font-weight:500}
+.pd-pill.amber{background:var(--amber-bg);color:var(--amber)}
+.pd-pill.red{background:var(--red-bg);color:var(--red)}
+.pd-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8vw}
+.pd-stat{background:#FAFAFA;border-radius:0.5vw;padding:1vh 0.8vw}
+.pd-stat .l{font-family:'DM Mono';font-size:0.65vw;letter-spacing:0.1em;color:var(--ml-gray-3);text-transform:uppercase}
+.pd-stat .v{font-family:'Outfit';font-weight:700;font-size:1.1vw;color:var(--ml-black);margin-top:0.2vh}
+.pd-section h4{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.15em;text-transform:uppercase;color:var(--ml-gray-3);margin-bottom:0.5vh}
+.pd-section p,.pd-section li{font-family:'DM Sans';font-size:0.82vw;color:var(--ml-gray-4);line-height:1.4}
+.pd-section ul{list-style:none;margin-left:0}
+.pd-section li{padding:0.15vh 0;padding-left:0.9vw;position:relative}
+.pd-section li::before{content:"›";position:absolute;left:0;color:var(--ml-gray-3);font-family:'DM Mono'}
+.pd-lesson{
+  background:var(--ml-black);color:var(--ml-yellow);
+  border-radius:0.6vw;padding:1.2vh 1vw;margin-top:auto;
+  font-family:'Outfit';font-weight:600;font-size:0.92vw;line-height:1.3;
+}
+.pd-lesson::before{content:"⚡ ";font-size:1vw}
+
+/* ---------- SLIDE 7 — EUROPA ---------- */
+.s7-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:1.4vw;flex:1;min-height:0}
+.zeos-card{
+  background:#fff;border-radius:1vw;padding:2.2vh 1.8vw;
+  border:1px solid #EAEAEA;border-top:5px solid var(--zeos);
+  display:flex;flex-direction:column;gap:1.4vh;
+}
+.zeos-card .z-head{display:flex;justify-content:space-between;align-items:flex-start}
+.zeos-card .z-head h3{font-family:'Outfit';font-weight:800;font-size:1.8vw;color:var(--ml-black)}
+.zeos-card .z-head .sub{font-family:'DM Sans';font-size:0.9vw;color:var(--zeos);font-weight:600}
+.zeos-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8vw}
+.z-stat{background:#FFF7F0;border-radius:0.5vw;padding:1.2vh 0.8vw;border-left:3px solid var(--zeos)}
+.z-stat .v{font-family:'Outfit';font-weight:800;font-size:1.4vw;color:var(--zeos);line-height:1}
+.z-stat .l{font-family:'DM Sans';font-size:0.72vw;color:var(--ml-gray-4);margin-top:0.3vh}
+.zeos-detail{display:grid;grid-template-columns:1fr 1fr;gap:1vw}
+.zeos-detail .col h4{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.12em;color:var(--ml-gray-3);text-transform:uppercase;margin-bottom:0.5vh}
+.zeos-detail .col p,.zeos-detail .col li{font-family:'DM Sans';font-size:0.82vw;color:var(--ml-gray-4);line-height:1.4}
+.zeos-detail .col ul{list-style:none}
+.zeos-detail .col li{padding:0.2vh 0;padding-left:0.8vw;position:relative}
+.zeos-detail .col li::before{content:"›";position:absolute;left:0;color:var(--zeos);font-family:'DM Mono'}
+.s7-side{display:flex;flex-direction:column;gap:1vh}
+.s7-side h3{font-family:'Outfit';font-weight:700;font-size:1.2vw;color:var(--ml-black);margin-bottom:0.4vh}
+.s7-side .sd{font-family:'DM Sans';font-size:0.82vw;color:var(--ml-gray-4);margin-bottom:0.6vh}
+.byrd-card{background:#fff;border-radius:0.8vw;padding:1.4vh 1.2vw;border:1px solid #EAEAEA;border-left:4px solid var(--byrd);flex:1}
+.byrd-card.q{border-left-color:#27AE60}
+.byrd-card h4{font-family:'Outfit';font-weight:700;font-size:1.1vw;color:var(--ml-black);display:flex;justify-content:space-between;align-items:center}
+.byrd-card h4 span.tag{font-family:'DM Mono';font-size:0.65vw;letter-spacing:0.1em;color:var(--byrd);background:#E9F9F0;padding:0.3vh 0.6vw;border-radius:0.3vw;text-transform:uppercase}
+.byrd-card p{font-family:'DM Sans';font-size:0.78vw;color:var(--ml-gray-4);line-height:1.4;margin-top:0.4vh}
+.byrd-diff{
+  background:var(--ml-black);color:#fff;
+  border-radius:0.6vw;padding:1.2vh 1vw;
+  font-family:'DM Sans';font-size:0.82vw;line-height:1.4;
+}
+.byrd-diff strong{color:var(--ml-yellow)}
+
+/* ---------- SLIDE 8 — ASIA ---------- */
+.s8-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4vw;flex:1;min-height:0}
+.asia-card{
+  background:#fff;border-radius:1vw;padding:2vh 1.6vw;
+  border:1px solid #EAEAEA;border-top:5px solid #ccc;
+  display:flex;flex-direction:column;gap:1.2vh;
+}
+.asia-card.jd{border-top-color:var(--jd)}
+.asia-card.cainiao{border-top-color:var(--cainiao)}
+.asia-card .ah{display:flex;justify-content:space-between;align-items:flex-start}
+.asia-card .ah h3{font-family:'Outfit';font-weight:800;font-size:1.7vw;color:var(--ml-black);line-height:1}
+.asia-card .ah .sub{font-family:'DM Sans';font-size:0.85vw;color:var(--ml-gray-4);margin-top:0.3vh}
+.asia-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.7vw}
+.a-stat{background:#FAFAFA;border-radius:0.5vw;padding:1vh 0.8vw}
+.a-stat .v{font-family:'Outfit';font-weight:800;font-size:1.3vw;line-height:1}
+.asia-card.jd .a-stat .v{color:var(--jd)}
+.asia-card.cainiao .a-stat .v{color:var(--cainiao)}
+.a-stat .l{font-family:'DM Sans';font-size:0.7vw;color:var(--ml-gray-4);margin-top:0.3vh}
+.asia-section h4{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.15em;color:var(--ml-gray-3);text-transform:uppercase;margin-bottom:0.4vh}
+.asia-section p,.asia-section li{font-family:'DM Sans';font-size:0.82vw;color:var(--ml-gray-4);line-height:1.4}
+.asia-section ul{list-style:none}
+.asia-section li{padding:0.15vh 0;padding-left:0.8vw;position:relative}
+.asia-section li::before{content:"›";position:absolute;left:0;font-family:'DM Mono'}
+.asia-card.jd .asia-section li::before{color:var(--jd)}
+.asia-card.cainiao .asia-section li::before{color:var(--cainiao)}
+.signal-banner{
+  margin-top:auto;background:var(--green-bg);color:var(--green);
+  border-radius:0.6vw;padding:1vh 1vw;
+  font-family:'DM Mono';font-size:0.78vw;letter-spacing:0.1em;
+  display:flex;justify-content:space-between;align-items:center;text-transform:uppercase;
+}
+.s8-bottom-note{
+  margin-top:1vh;background:#fff;border:1px solid #EAEAEA;
+  border-radius:0.7vw;padding:1.2vh 1.4vw;
+  display:flex;align-items:center;gap:1.2vw;
+}
+.s8-bottom-note .ico{font-size:1.2vw}
+.s8-bottom-note .tx{font-family:'DM Sans';font-size:0.85vw;color:var(--ml-gray-4);line-height:1.4}
+.s8-bottom-note .tx strong{color:var(--ml-black);font-family:'Outfit';font-weight:700}
+
+/* ---------- SLIDE 9 — CUBBO ---------- */
+.s9-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:1.4vw;flex:1;min-height:0}
+.cubbo-hero{
+  background:#fff;border-radius:1vw;padding:2vh 1.6vw;
+  border:1px solid #EAEAEA;border-top:5px solid var(--cubbo);
+  display:flex;flex-direction:column;gap:1.4vh;
+}
+.cubbo-hero .ch{display:flex;justify-content:space-between;align-items:flex-start}
+.cubbo-hero .ch h3{font-family:'Outfit';font-weight:800;font-size:2vw;color:var(--ml-black);line-height:0.95}
+.cubbo-hero .ch .sub{font-family:'DM Sans';font-size:0.9vw;color:var(--cubbo);font-weight:600;margin-top:0.3vh}
+.cubbo-warn{
+  background:#FFF6E5;border:1px solid #F5C26B;
+  border-radius:0.5vw;padding:0.8vh 1vw;
+  font-family:'DM Mono';font-size:0.72vw;color:#8E5A00;letter-spacing:0.08em;
+}
+.cubbo-pricing{background:#FAFAFA;border-radius:0.7vw;padding:1.2vh 1.2vw}
+.cubbo-pricing h4{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.15em;color:var(--ml-gray-3);text-transform:uppercase;margin-bottom:0.6vh}
+.price-rows{display:grid;grid-template-columns:1fr 1fr;gap:0.6vw}
+.price-row{display:flex;justify-content:space-between;padding:0.4vh 0;border-bottom:1px dashed #E5E5E5;font-family:'DM Sans';font-size:0.82vw}
+.price-row .l{color:var(--ml-gray-4)}
+.price-row .v{font-family:'DM Mono';color:var(--ml-black);font-weight:500}
+.cubbo-allin{
+  background:linear-gradient(90deg,var(--cubbo),#8B5CF6);color:#fff;
+  border-radius:0.5vw;padding:1.2vh 1.2vw;display:flex;justify-content:space-between;align-items:center;margin-top:0.4vh;
+}
+.cubbo-allin .l{font-family:'DM Mono';font-size:0.78vw;letter-spacing:0.1em;text-transform:uppercase}
+.cubbo-allin .v{font-family:'Outfit';font-weight:800;font-size:1.4vw}
+.cubbo-side{display:flex;flex-direction:column;gap:1vh}
+.cs-block{background:#fff;border:1px solid #EAEAEA;border-radius:0.7vw;padding:1.4vh 1.2vw}
+.cs-block h4{font-family:'Outfit';font-weight:700;font-size:1vw;color:var(--ml-black);margin-bottom:0.6vh;display:flex;align-items:center;gap:0.5vw}
+.cs-block h4 .dot{width:0.6vw;height:0.6vw;border-radius:50%;background:var(--cubbo)}
+.cs-block.adv h4 .dot{background:var(--ml-yellow)}
+.cs-block ul{list-style:none}
+.cs-block li{font-family:'DM Sans';font-size:0.82vw;color:var(--ml-gray-4);padding:0.25vh 0;padding-left:0.9vw;position:relative;line-height:1.35}
+.cs-block li::before{content:"›";position:absolute;left:0;color:var(--cubbo);font-family:'DM Mono'}
+.cs-block.adv li::before{content:"★";color:#B58900}
+.cs-block.adv{background:#1A1A1A;color:#fff;border-color:#1A1A1A}
+.cs-block.adv h4{color:#fff}
+.cs-block.adv li{color:rgba(255,255,255,0.85)}
+
+/* ---------- SLIDE 10 — MATRIX ---------- */
+.matrix-wrap{flex:1;background:#fff;border-radius:1vw;padding:1.6vh 1.4vw;border:1px solid #EAEAEA;overflow:hidden;display:flex;flex-direction:column}
+.matrix{
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1.1fr 1fr 1fr 1fr 1fr 0.9fr;
+  font-size:0.78vw;
+}
+.matrix > div{padding:0.85vh 0.6vw;border-bottom:1px solid #F0F0F0;display:flex;align-items:center;line-height:1.25}
+.matrix .head{font-family:'DM Mono';font-size:0.68vw;letter-spacing:0.12em;text-transform:uppercase;color:var(--ml-gray-3);background:#FAFAFA;font-weight:500;border-bottom:2px solid #E0E0E0}
+.matrix .player{font-family:'Outfit';font-weight:700;font-size:0.92vw;color:var(--ml-black)}
+.matrix .player::before{content:"";width:0.4vw;height:1.8vh;background:#ccc;margin-right:0.5vw;border-radius:1px}
+.matrix .player.amazon::before{background:var(--amazon)}
+.matrix .player.walmart::before{background:var(--walmart)}
+.matrix .player.shopify::before{background:var(--shopify)}
+.matrix .player.zeos::before{background:var(--zeos)}
+.matrix .player.jd::before{background:var(--jd)}
+.matrix .player.cainiao::before{background:var(--cainiao)}
+.matrix .player.cubbo::before{background:var(--cubbo)}
+.matrix .player.byrd::before{background:var(--byrd)}
+.matrix .player.ekart::before{background:var(--ekart)}
+.matrix .yes{color:var(--green);font-weight:600}
+.matrix .no{color:var(--red);font-weight:600}
+.matrix .partial{color:var(--amber);font-weight:600}
+.matrix .cell-mono{font-family:'DM Mono';font-size:0.72vw;color:var(--ml-black)}
+.matrix .sig-cell{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.06em;font-weight:500;border-radius:0.3vw;padding:0.3vh 0.5vw;display:inline-block}
+.matrix .sig-green{background:var(--green-bg);color:var(--green)}
+.matrix .sig-amber{background:var(--amber-bg);color:var(--amber)}
+.matrix .sig-red{background:var(--red-bg);color:var(--red)}
+.matrix .meli-row{background:#FFFBE0}
+.matrix .meli-row .player{color:var(--ml-black)}
+.matrix .meli-row .player::before{background:var(--ml-yellow);width:0.5vw}
+.matrix-key{
+  display:flex;gap:1.5vw;margin-top:1vh;font-family:'DM Mono';font-size:0.7vw;
+  color:var(--ml-gray-4);letter-spacing:0.08em;text-transform:uppercase;
+}
+.matrix-key span::before{content:"●";margin-right:0.4vw}
+.matrix-key .yes::before{color:var(--green)}
+.matrix-key .no::before{color:var(--red)}
+.matrix-key .partial::before{color:var(--amber)}
+
+/* ---------- SLIDE 11 — INSIGHTS ---------- */
+.s11-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:1.2vw;flex:1;min-height:0}
+.insight{
+  background:#fff;border-radius:0.9vw;padding:1.8vh 1.4vw;
+  border:1px solid #EAEAEA;display:flex;flex-direction:column;gap:0.8vh;
+  position:relative;overflow:hidden;
+}
+.insight::before{
+  content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--ml-yellow);
+}
+.insight .num{
+  font-family:'Outfit';font-weight:900;font-size:2.6vw;line-height:0.9;
+  color:var(--ml-yellow);-webkit-text-stroke:1.5px var(--ml-black);
+}
+.insight .t{font-family:'Outfit';font-weight:700;font-size:1.1vw;line-height:1.1;color:var(--ml-black)}
+.insight .b{font-family:'DM Sans';font-size:0.82vw;line-height:1.4;color:var(--ml-gray-4)}
+.insight .ev{
+  margin-top:auto;font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.08em;
+  color:var(--ml-gray-3);text-transform:uppercase;border-top:1px dashed #E5E5E5;padding-top:0.8vh;
+}
+
+/* ---------- SLIDE 12 — IMPLICATIONS ---------- */
+.s12-wrap{display:flex;flex-direction:column;gap:2vh;flex:1;min-height:0}
+.s12-headline{
+  font-family:'Outfit';font-weight:800;font-size:2.6vw;line-height:1.05;
+  letter-spacing:-0.02em;color:#fff;margin-bottom:0.6vh;
+}
+.s12-headline .yh{color:var(--ml-yellow)}
+.s12-sub{font-family:'DM Sans';font-size:1vw;line-height:1.4;color:rgba(255,255,255,0.7);max-width:60vw}
+.s12-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw;flex:1;min-height:0}
+.adv-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:0.9vw;padding:2vh 1.4vw;display:flex;flex-direction:column;gap:1vh;
+}
+.adv-card.featured{background:var(--ml-yellow);color:var(--ml-black);border-color:var(--ml-yellow)}
+.adv-card .ah{font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.18em;color:var(--ml-yellow);text-transform:uppercase}
+.adv-card.featured .ah{color:var(--ml-black)}
+.adv-card .at{font-family:'Outfit';font-weight:700;font-size:1.2vw;line-height:1.1;color:#fff}
+.adv-card.featured .at{color:var(--ml-black)}
+.adv-card .ab{font-family:'DM Sans';font-size:0.85vw;color:rgba(255,255,255,0.7);line-height:1.4}
+.adv-card.featured .ab{color:rgba(0,0,0,0.7)}
+.adv-card .ev{
+  margin-top:auto;font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.08em;
+  color:rgba(255,255,255,0.45);border-top:1px solid rgba(255,255,255,0.1);
+  padding-top:0.7vh;text-transform:uppercase;
+}
+.adv-card.featured .ev{color:rgba(0,0,0,0.5);border-color:rgba(0,0,0,0.15)}
+.s12-cta{
+  background:rgba(255,230,0,0.08);border:1px solid rgba(255,230,0,0.25);
+  border-radius:0.7vw;padding:1.4vh 1.6vw;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.s12-cta .ct{font-family:'Outfit';font-weight:600;font-size:1vw;color:#fff}
+.s12-cta .ct strong{color:var(--ml-yellow)}
+.s12-cta .cs{font-family:'DM Mono';font-size:0.78vw;color:var(--ml-yellow);letter-spacing:0.15em;text-transform:uppercase}
+
+/* ---------- NAV ---------- */
+.nav{position:fixed;bottom:1.5vh;right:2vw;display:flex;gap:0.6vw;z-index:99}
+.nav button{
+  background:rgba(0,0,0,0.06);border:none;color:var(--ml-black);
+  width:2.4vw;height:2.4vw;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono';font-size:1vw;transition:all 0.15s ease;
+}
+.nav button:hover{background:var(--ml-yellow)}
+.slide.dark ~ .nav button,.dark-active .nav button{background:rgba(255,255,255,0.1);color:#fff}
+.counter{
+  position:fixed;bottom:1.7vh;left:2vw;
+  font-family:'DM Mono';font-size:0.78vw;letter-spacing:0.15em;
+  color:var(--ml-gray-3);z-index:99;
+}
+body.dark-active .counter{color:rgba(255,255,255,0.5)}
+.help{
+  position:fixed;bottom:1.7vh;left:50%;transform:translateX(-50%);
+  font-family:'DM Mono';font-size:0.7vw;letter-spacing:0.1em;
+  color:var(--ml-gray-3);text-transform:uppercase;z-index:99;
+}
+body.dark-active .help{color:rgba(255,255,255,0.4)}
+
+/* horizontal step connectors */
+.step-card::after{
+  content:"";position:absolute;top:50%;right:-0.6vw;
+  width:0.8vw;height:0.08vw;background:#D5D5D5;
+}
+.step-card:nth-child(4n)::after,.step-card:last-child::after{display:none}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- =============== SLIDE 1: TITLE =============== -->
+<section class="slide slide-title dark active">
+  <div class="grid-bg"></div>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="title-content">
+    <div class="title-eyebrow">Benchmark Global · ME OFF · Produto MLM</div>
+    <h1 class="title-main">Fulfillment para o<br>canal <span class="yellow">D2C</span> dos sellers.</h1>
+    <p class="title-sub">Como Amazon, Walmart, Zalando, JD, Cainiao, Cubbo e outros usam suas redes logísticas para servir o site próprio do seller — e o que isso significa para o MELI no México.</p>
+    <div class="title-meta">
+      <div><span class="l">Audiência</span><span class="v">Time de Produto · Diretoria</span></div>
+      <div><span class="l">Pergunta</span><span class="v">Devemos construir um MCF estilo Amazon?</span></div>
+      <div><span class="l">Players analisados</span><span class="v">9 globais · 4 regiões</span></div>
+      <div><span class="l">Data</span><span class="v">Abril · 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 2: WHY THIS MATTERS =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">01 · Contexto</span>
+      <h2 class="h2" style="max-width:60vw">Por que isso importa agora.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s2-grid">
+    <div class="s2-left">
+      <div class="s2-statement">Todo player com rede logística madura chegou à mesma conclusão: <em>oferecê-la para o D2C do seller é um jogo de monetização da capacidade ociosa.</em></div>
+      <p class="s2-body">A hipótese MELI é simples: o seller já tem estoque no Full do México. Por que não usá-lo para despachar pedidos do Shopify ou VTEX dele? Antes de construir, olhamos o que 9 players globais aprenderam ao tentar exatamente isso — desde o sucesso massivo (Amazon MCF) até o fracasso público (Shopify-Flexport).</p>
+    </div>
+    <div class="s2-right">
+      <div class="s2-card">
+        <div class="num">200+</div>
+        <div class="txt"><div class="t">Amazon FCs servindo MCF</div><div class="s">Centenas de milhares de sellers usando MCF globalmente. Crescimento de +40% YoY em grandes contas.</div></div>
+        <div class="badge" style="background:var(--green-bg);color:var(--green)">CRESCENDO</div>
+      </div>
+      <div class="s2-card">
+        <div class="num">$2,1B</div>
+        <div class="txt"><div class="t">O que Shopify gastou e descartou</div><div class="s">Comprou Deliverr, montou SFN, vendeu tudo para Flexport em 2023. Construir fulfillment standalone é difícil.</div></div>
+        <div class="badge" style="background:var(--red-bg);color:var(--red)">RETRAINDO</div>
+      </div>
+      <div class="s2-card">
+        <div class="num">$3,75B</div>
+        <div class="txt"><div class="t">Alibaba comprando 100% da Cainiao</div><div class="s">IPO cancelado, minoritários comprados. Sinal explícito de que logística cross-border é estratégica.</div></div>
+        <div class="badge" style="background:var(--green-bg);color:var(--green)">CRESCENDO</div>
+      </div>
+      <div class="s2-card">
+        <div class="num">21</div>
+        <div class="txt"><div class="t">CDs MELI prontos no México</div><div class="s">A capacidade já existe. A pergunta é se monetizamos ela para o D2C do seller — antes que o Cubbo cresça mais.</div></div>
+        <div class="badge" style="background:var(--ml-yellow);color:var(--ml-black)">OPORTUNIDADE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 3: GLOBAL MAP =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">02 · Panorama</span>
+      <h2 class="h2">Quem está fazendo isso, em qual região.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s3-wrap">
+    <p class="s3-intro">Cada região tem seu padrão. Nos EUA, o jogo é dominância (Amazon) e tentativa de ataque (Walmart). Na Europa, verticalização (Zalando) e nicho premium (Byrd, Quivo). Na Ásia, escala estatal e cross-border. Na LATAM — o território do MELI — só Cubbo joga, e joga sozinho.</p>
+    <div class="s3-map">
+      <div class="region americas">
+        <div class="r-tag">Americas — EUA + Canadá</div>
+        <div class="r-name">Mercado dominante</div>
+        <div class="player-chip amazon"><div class="pn">Amazon MCF<span class="sig">🟢</span></div><div class="pd">200+ FCs · 11 países · padrão de mercado · "Buy with Prime" como hook D2C.</div></div>
+        <div class="player-chip walmart"><div class="pn">Walmart MCS<span class="sig">🟡</span></div><div class="pd">US-only · barreira de entrada (precisa ser WFS antes) · 15% mais barato que Amazon.</div></div>
+        <div class="player-chip shopify"><div class="pn">Shopify/Flexport<span class="sig">🔴</span></div><div class="pd">Saiu do mercado. $2,1B descartados. Lição: operar fulfillment é difícil sem rede própria.</div></div>
+      </div>
+      <div class="region europe">
+        <div class="r-tag">Europa</div>
+        <div class="r-name">Verticalização + nicho</div>
+        <div class="player-chip zeos"><div class="pn">ZEOS (Zalando)<span class="sig">🟡</span></div><div class="pd">14 FCs · 27 mercados EU · só fashion/lifestyle · enterprise contracts.</div></div>
+        <div class="player-chip byrd"><div class="pn">Byrd<span class="sig">🟡</span></div><div class="pd">Vienna · D/A/UK/FR · Shopify-native · branding total · $56M raised.</div></div>
+        <div class="player-chip byrd"><div class="pn">Quivo<span class="sig">🟡</span></div><div class="pd">"Maior fulfillment EU" · 1.450+ clientes · 7 warehouses · branding total.</div></div>
+      </div>
+      <div class="region asia">
+        <div class="r-tag">Ásia + Cross-border</div>
+        <div class="r-name">Escala + global reach</div>
+        <div class="player-chip jd"><div class="pn">JD Logistics<span class="sig">🟢</span></div><div class="pd">2.700+ distritos China · 100+ warehouses globais · 200+ países entrega.</div></div>
+        <div class="player-chip cainiao"><div class="pn">Cainiao (Alibaba)<span class="sig">🟢</span></div><div class="pd">90% do cross-border mundial · 5M+ pacotes/dia · Alibaba comprou 100%.</div></div>
+        <div class="player-chip ekart"><div class="pn">Ekart (Flipkart)<span class="sig">🟡</span></div><div class="pd">15.000+ pin codes Índia · INR 13.733 Cr FY25 · "perto do break-even".</div></div>
+      </div>
+      <div class="region latam">
+        <div class="r-tag">LATAM — território MELI</div>
+        <div class="r-name">Espaço aberto</div>
+        <div class="player-chip cubbo"><div class="pn">Cubbo<span class="sig">🟡</span></div><div class="pd">⚠️ Concorrente direto. MX/BR/CO · 250k sq ft CDMX · 200+ marcas · pricing público transparente.</div></div>
+        <div class="player-chip" style="border-left-color:#999"><div class="pn">— vácuo —<span class="sig" style="color:var(--ml-gray-3)">○</span></div><div class="pd">Nenhum marketplace LATAM oferece fulfillment para D2C ainda. Janela de oportunidade.</div></div>
+        <div class="player-chip" style="border-left-color:var(--ml-yellow)"><div class="pn" style="color:var(--ml-black)">MELI MCF (proposto)<span class="sig">⚡</span></div><div class="pd">21 CDs MX · marketplace de 100M+ usuários · Envíos MELI como badge D2C.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 4: AMAZON STEPS =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">03 · Amazon MCF · Como funciona</span>
+      <h2 class="h2">A jornada do seller, em 8 passos.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s4-steps">
+    <div class="step-card"><span class="step-num">1</span><div class="step-icon">🪪</div><div class="step-title">Conta no Seller Central</div><div class="step-body">FBA atual: zero esforço extra. Novo: 1–2 semanas setup.</div></div>
+    <div class="step-card"><span class="step-num">2</span><div class="step-icon">🏷️</div><div class="step-title">Aplicar barcodes FNSKU</div><div class="step-body">Etiquetagem padrão Amazon nos produtos.</div></div>
+    <div class="step-card"><span class="step-num">3</span><div class="step-icon">📦</div><div class="step-title">Enviar estoque ao FC</div><div class="step-body">Inbound idêntico ao FBA. Estoque é único pool.</div></div>
+    <div class="step-card"><span class="step-num">4</span><div class="step-icon">🔌</div><div class="step-title">Conectar site D2C</div><div class="step-body">Apps Shopify, BigCommerce, WooCommerce, VTEX ou API direta.</div></div>
+    <div class="step-card"><span class="step-num">5</span><div class="step-icon">🛒</div><div class="step-title">Pedido entra na MCF</div><div class="step-body">OMS do seller dispara API call quando customer compra no D2C.</div></div>
+    <div class="step-card"><span class="step-num">6</span><div class="step-icon">📤</div><div class="step-title">Pick, pack & ship</div><div class="step-body">Caixa unbranded (sem logo Amazon desde 2023).</div></div>
+    <div class="step-card"><span class="step-num">7</span><div class="step-icon">🛰️</div><div class="step-title">Tracking ao seller</div><div class="step-body">Seller comunica ao seu cliente. Branding D2C preservado.</div></div>
+    <div class="step-card"><span class="step-num">8</span><div class="step-icon">↩️</div><div class="step-title">Returns pela Amazon</div><div class="step-body">Reverso é gerenciado pela Amazon, igual ao FBA.</div></div>
+  </div>
+  <div class="s4-flow-note">
+    <div><span class="nl">Esforço Seller</span> <span class="nv">FBA atual: <strong>BAIXO</strong> · Novo: <strong>MÉDIO</strong> (~2-3 sem)</span></div>
+    <div><span class="nl">SLA</span> <span class="nv">3-day standard (96,4% on-time) · 2-day expedited · click-to-door 1,9d</span></div>
+    <div><span class="nl">Branding</span> <span class="nv"><strong>Sem logo Amazon</strong> · sem inserts custom</span></div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 5: AMAZON NUMBERS =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">04 · Amazon MCF · Números</span>
+      <h2 class="h2">O que o seller paga e o que ele recebe de volta.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s5-grid">
+    <div class="s5-left">
+      <div class="metric"><div class="m-l">Vendas off-Amazon</div><div class="m-v">+19%</div><div class="m-d">Sellers reportaram aumento de vendas no canal D2C após adotar MCF (n=224).</div></div>
+      <div class="metric"><div class="m-l">Lucro</div><div class="m-v">+10%</div><div class="m-d">Aumento de profitability — economia de escala em fulfillment + menos out-of-stock.</div></div>
+      <div class="metric"><div class="m-l">Ruptura</div><div class="m-v">−19%</div><div class="m-d">Redução de out-of-stocks via inventory pool único Amazon + D2C.</div></div>
+      <div class="metric dark"><div class="m-l">Inventory turn</div><div class="m-v">+12%</div><div class="m-d">Maior giro de estoque — mesmo SKU rodando em 2+ canais.</div></div>
+    </div>
+    <div class="s5-right">
+      <div class="cost-table">
+        <div class="row head"><div>Tarifa US 2026</div><div>Standard 3-day</div><div>Expedited 2-day</div></div>
+        <div class="row"><div class="label-cell">Small (≤4oz)</div><div class="c">$7,34/un</div><div class="c">$10,70/un</div></div>
+        <div class="row"><div class="label-cell">Large (1-2 lb)</div><div class="c">$10,64/un</div><div class="c">$13,45/un</div></div>
+        <div class="row"><div class="label-cell">Large Bulky</div><div class="c">$18,08+</div><div class="c">—</div></div>
+        <div class="row"><div class="label-cell">Storage Jan-Set</div><div class="c">$0,78/cu ft</div><div class="c">—</div></div>
+        <div class="row"><div class="label-cell">Storage Out-Dez</div><div class="c">$2,40/cu ft</div><div class="c">peak</div></div>
+        <div class="row"><div class="label-cell">Fuel surcharge</div><div class="c">+3,5% (Mai/26)</div><div class="c">—</div></div>
+        <div class="row"><div class="label-cell">México 2026</div><div class="c">~MXN 19/un</div><div class="c">1d / 2d / std</div></div>
+      </div>
+      <div class="proscons">
+        <div class="pcbox pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Single inventory pool (Amazon + D2C)</li>
+            <li>100+ integrações (Shopify, VTEX, BigCommerce…)</li>
+            <li>Sem volume mínimo, descontos 5-15% acima de 1.200 un/ano</li>
+            <li>Buy with Prime: +25% conversão D2C (US)</li>
+          </ul>
+        </div>
+        <div class="pcbox cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Box unbranded (sem logo seller, sem inserts)</li>
+            <li>20-30% mais caro que FBA equivalente</li>
+            <li>Conta Amazon obrigatória mesmo p/ não-sellers</li>
+            <li>Buy with Prime: só US</li>
+          </ul>
+        </div>
+      </div>
+      <div class="invest-bar">
+        <div class="bl">Sinal de investimento</div>
+        <div class="bs">$100B+ capex Amazon 2025 · MCF integrado em "Supply Chain by Amazon" · IA forecasting · expansão Walmart/SHEIN/TikTok integrations · +40% YoY em grandes contas (Adidas, Steve Madden, Bloom Nutrition).</div>
+        <div class="bv">🟢 FORTEMENTE CRESCENTE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 6: WALMART + SHOPIFY =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">05 · Estados Unidos · Outros movimentos</span>
+      <h2 class="h2">Um crescendo, outro fracassando — a mesma pergunta sendo respondida diferente.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s6-grid">
+    <div class="player-deep walmart">
+      <div class="pd-head">
+        <div class="left"><h3>Walmart MCS</h3><div class="sub">Multichannel Solutions · "WFS para o D2C"</div></div>
+        <span class="pd-pill amber">🟡 CRESCENDO</span>
+      </div>
+      <div class="pd-stats">
+        <div class="pd-stat"><div class="l">Cobertura</div><div class="v">EUA</div></div>
+        <div class="pd-stat"><div class="l">SLA Standard</div><div class="v">3–5d (97% OT)</div></div>
+        <div class="pd-stat"><div class="l">Vs. Amazon</div><div class="v">−15% custo</div></div>
+      </div>
+      <div class="pd-section">
+        <h4>Pricing 2026 (US)</h4>
+        <p>≤6oz: <strong>$7,45/un</strong> · 6-12oz: $7,75 · 12oz-1lb: $8,05 · 2-30lb: $8,65 + $0,60/lb. Storage $0,75 (J-S) / $1,50 (O-D, 30+d). Multi-unit: −$2,50 a $3,50 cada adicional. <strong>20% off promo</strong> nos primeiros 90 dias até Jan/27.</p>
+      </div>
+      <div class="pd-section">
+        <h4>Cobertura D2C</h4>
+        <p>Despacha pedidos do site próprio do seller, eBay, Amazon, SHEIN, Temu — desde que seja seller WFS antes (barreira).</p>
+      </div>
+      <div class="pd-section">
+        <h4>Pros · Cons</h4>
+        <ul>
+          <li><strong>+</strong> 15% mais barato · sem setup fee · returns inclusos</li>
+          <li><strong>+</strong> Rede FC US robusta · multicanal nativo</li>
+          <li><strong>−</strong> Precisa ser Walmart marketplace seller antes</li>
+          <li><strong>−</strong> US apenas · ecossistema muito menor que Amazon</li>
+        </ul>
+      </div>
+      <div class="pd-lesson">Walmart prova que dá pra atacar Amazon por preço — mas exige rede FC e senso de urgência.</div>
+    </div>
+    <div class="player-deep shopify">
+      <div class="pd-head">
+        <div class="left"><h3>Shopify / Flexport</h3><div class="sub">SFN · Deliverr · saída em 2023</div></div>
+        <span class="pd-pill red">🔴 RETRAINDO</span>
+      </div>
+      <div class="pd-stats">
+        <div class="pd-stat"><div class="l">Investido</div><div class="v">$2,1B</div></div>
+        <div class="pd-stat"><div class="l">Saída</div><div class="v">Mai 2023</div></div>
+        <div class="pd-stat"><div class="l">Modelo 2026</div><div class="v">$5k/mês flat</div></div>
+      </div>
+      <div class="pd-section">
+        <h4>Cronologia</h4>
+        <p>2019: Shopify lança Shopify Fulfillment Network. 2022: compra Deliverr por $2,1B. <strong>Mai 2023:</strong> vende toda operação logística para Flexport — saída total da posse de fulfillment.</p>
+      </div>
+      <div class="pd-section">
+        <h4>Realidade 2026</h4>
+        <p>Flexport cobra <strong>$5.000/mês fixo</strong> dos merchants → backlash massivo → êxodo para ShipBob, ShipHero e... Amazon MCF. Shopify hoje só faz integração via apps.</p>
+      </div>
+      <div class="pd-section">
+        <h4>Por que falhou</h4>
+        <ul>
+          <li>Tentaram comprar rede ao invés de construir orgânico</li>
+          <li>Sem volume marketplace próprio (Shopify é checkout, não marketplace)</li>
+          <li>Operação 3PL exige escala que software não dá</li>
+          <li>Fixed monthly fees não fazem sentido para SMB sazonal</li>
+        </ul>
+      </div>
+      <div class="pd-lesson">Operar fulfillment standalone sem demanda marketplace é estruturalmente difícil — mesmo com $2B em capex.</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 7: EUROPE =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">06 · Europa</span>
+      <h2 class="h2">Verticalização (Zalando) e nicho premium com branding total (Byrd, Quivo).</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s7-grid">
+    <div class="zeos-card">
+      <div class="z-head">
+        <div><h3>ZEOS</h3><div class="sub">Zalando E-Commerce Operating System · 🟡 MODERADO</div></div>
+        <span class="pd-pill amber">FASHION ONLY</span>
+      </div>
+      <div class="zeos-stats">
+        <div class="z-stat"><div class="v">14</div><div class="l">FCs Europa</div></div>
+        <div class="z-stat"><div class="v">27</div><div class="l">mercados EU</div></div>
+        <div class="z-stat"><div class="v">20</div><div class="l">return centers</div></div>
+        <div class="z-stat"><div class="v">40+</div><div class="l">carriers</div></div>
+      </div>
+      <div class="zeos-detail">
+        <div class="col">
+          <h4>O que é</h4>
+          <p>Zalando vira "operating system" do e-commerce de moda: marca estoca em FCs Zalando e despacha do site próprio + outras plataformas com mesmo pool.</p>
+          <h4 style="margin-top:0.8vh">Integrações</h4>
+          <p>Shopify, SCAYLE, Tradebyte, ChannelEngine, Rithum.</p>
+        </div>
+        <div class="col">
+          <h4>Pros</h4>
+          <ul><li>Cobertura pan-EU de pool único</li><li>Expertise fashion (sizing, returns)</li><li>Reach 27 mercados</li></ul>
+          <h4 style="margin-top:0.8vh">Cons</h4>
+          <ul><li>Só fashion/lifestyle (não generalista)</li><li>Adoção mais lenta que esperado</li><li>Enterprise contracts apenas</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="s7-side">
+      <h3>Byrd · Quivo</h3>
+      <div class="sd">3PLs especializados — diferencial-chave: <strong>full white-label</strong> com inserts custom (algo que Amazon MCF proíbe).</div>
+      <div class="byrd-card">
+        <h4>Byrd <span class="tag">$56M raised</span></h4>
+        <p>Vienna · Alemanha, Áustria, UK, França · Shopify-native · pricing por cotação · branding total + inserts custom.</p>
+      </div>
+      <div class="byrd-card q">
+        <h4>Quivo <span class="tag">1.450+ clientes</span></h4>
+        <p>"Maior fulfillment EU" · 7 warehouses (EU + Golfo + US) · cobre Oriente Médio + EU corridor · rate card pública · branding total.</p>
+      </div>
+      <div class="byrd-diff">Diferencial vs. Amazon MCF: <strong>permitem packaging branded e inserts</strong> — espaço de mercado para marcas que recusam o "box genérico" do MCF.</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 8: ASIA =============== -->
+
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">06b &middot; Europa &mdash; Byrd &amp; Quivo em detalhe</span>
+      <h2 class="h2">O diferencial que a Amazon MCF n&atilde;o oferece: embalagem da marca.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span><span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCH</span>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:1.8vw;">
+
+    <!-- BYRD -->
+    <div style="display:flex;flex-direction:column;gap:1vh;">
+      <div style="display:flex;align-items:center;gap:0.8vw;padding-bottom:0.8vh;border-bottom:2px solid var(--byrd)">
+        <div style="width:0.7vw;height:0.7vw;border-radius:50%;background:var(--byrd)"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:0.7vw;font-weight:700;color:var(--byrd);letter-spacing:0.1em;text-transform:uppercase">Byrd &mdash; Viena, &Aacute;ustria (2016)</span>
+      </div>
+      <div class="card" style="padding:1.4vh 1.4vw;display:flex;flex-direction:column;gap:0.8vh;flex:1">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6vh">
+          <div class="metric" style="padding:0.9vh 0.9vw">
+            <div style="font-size:1.6vw;font-weight:900;color:var(--byrd);line-height:1">4</div>
+            <div style="font-size:0.65vw;color:var(--ml-gray-4);margin-top:0.2vh">pa&iacute;ses<br>DE, AT, UK, FR</div>
+          </div>
+          <div class="metric" style="padding:0.9vh 0.9vw">
+            <div style="font-size:1.6vw;font-weight:900;color:var(--byrd);line-height:1">$56M</div>
+            <div style="font-size:0.65vw;color:var(--ml-gray-4);margin-top:0.2vh">levantados<br>Rodada 2022</div>
+          </div>
+        </div>
+        <div style="font-size:0.78vw;font-weight:700;color:var(--ink);margin-top:0.4vh">Como funciona</div>
+        <div style="display:flex;flex-direction:column;gap:0.4vh">
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--byrd);font-size:0.82vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Marca envia estoque para o FC na Alemanha (hub principal)</span></div>
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--byrd);font-size:0.82vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Integra&ccedil;&atilde;o nativa Shopify &mdash; pedidos fluem automaticamente</span></div>
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--byrd);font-size:0.82vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Pick, pack com embalagem 100% da marca (caixa, tissue, inserts)</span></div>
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--byrd);font-size:0.82vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Entrega em DE/AT em 1-2 dias; UK e FR em 2-4 dias</span></div>
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--byrd);font-size:0.82vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Modelo de precifica&ccedil;&atilde;o: recebimento + storage/shelf + pick base + pick/item + packing + frete + devolu&ccedil;&atilde;o</span></div>
+        </div>
+        <div style="background:var(--ml-gray-bg);border-radius:0.6vw;padding:0.8vh 0.9vw;margin-top:0.4vh">
+          <span style="font-size:0.72vw;font-weight:700;color:var(--ink)">Target: </span>
+          <span style="font-size:0.72vw;color:var(--ml-gray-4)">Marcas D2C escalando para a Europa via um &uacute;nico FC; ideal para Shopify-first brands</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIVO -->
+    <div style="display:flex;flex-direction:column;gap:1vh;">
+      <div style="display:flex;align-items:center;gap:0.8vw;padding-bottom:0.8vh;border-bottom:2px solid #2ECC71">
+        <div style="width:0.7vw;height:0.7vw;border-radius:50%;background:#2ECC71"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:0.7vw;font-weight:700;color:#1A7A45;letter-spacing:0.1em;text-transform:uppercase">Quivo &mdash; "Europe's largest fulfillment provider"</span>
+      </div>
+      <div class="card" style="padding:1.4vh 1.4vw;display:flex;flex-direction:column;gap:0.8vh;flex:1">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.6vh">
+          <div class="metric" style="padding:0.9vh 0.8vw">
+            <div style="font-size:1.6vw;font-weight:900;color:#1A7A45;line-height:1">1.450+</div>
+            <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">clientes<br>worldwide</div>
+          </div>
+          <div class="metric" style="padding:0.9vh 0.8vw">
+            <div style="font-size:1.6vw;font-weight:900;color:#1A7A45;line-height:1">7</div>
+            <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">armazéns<br>EU+GCC+US</div>
+          </div>
+          <div class="metric" style="padding:0.9vh 0.8vw">
+            <div style="font-size:1.6vw;font-weight:900;color:#1A7A45;line-height:1">27+</div>
+            <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">mercados<br>europeus</div>
+          </div>
+        </div>
+        <div style="font-size:0.78vw;font-weight:700;color:var(--ink);margin-top:0.4vh">Coberturas geogr&aacute;ficas</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5vh">
+          <div style="background:#E8F8EE;border-radius:0.5vw;padding:0.6vh 0.8vw;font-size:0.72vw;font-weight:600;color:#1A7A45">&#127482;&#127480; Europa (cluster EU)</div>
+          <div style="background:#E8F8EE;border-radius:0.5vw;padding:0.6vh 0.8vw;font-size:0.72vw;font-weight:600;color:#1A7A45">&#127468;&#127463; Reino Unido</div>
+          <div style="background:#E8F8EE;border-radius:0.5vw;padding:0.6vh 0.8vw;font-size:0.72vw;font-weight:600;color:#1A7A45">&#127478;&#127462; Qatar, EAU, SA, BH, OM</div>
+          <div style="background:#E8F8EE;border-radius:0.5vw;padding:0.6vh 0.8vw;font-size:0.72vw;font-weight:600;color:#1A7A45">&#127482;&#127480; Estados Unidos</div>
+        </div>
+        <div style="font-size:0.78vw;font-weight:700;color:var(--ink);margin-top:0.3vh">Diferenciais vs. concorrentes</div>
+        <div style="display:flex;flex-direction:column;gap:0.4vh">
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:#1A7A45;font-size:0.82vw;flex-shrink:0">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Corredor EU &harr; GCC: forte para marcas que querem Europa + Oriente M&eacute;dio</span></div>
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:#1A7A45;font-size:0.82vw;flex-shrink:0">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Embalagem 100% customiz&aacute;vel &mdash; logo da marca, inserts, kitting</span></div>
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:#1A7A45;font-size:0.82vw;flex-shrink:0">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Plataforma "The Connector": integra&ccedil;&atilde;o proprietária com Shopify, WooCommerce e carriers</span></div>
+          <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:#1A7A45;font-size:0.82vw;flex-shrink:0">&#10003;</span><span style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">Precifica&ccedil;&atilde;o flex&iacute;vel com lista p&uacute;blica disponível &mdash; sem taxas ocultas</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- KEY INSIGHT -->
+  <div style="background:#1A1A1A;border-radius:0.8vw;padding:1.2vh 1.6vw;margin-top:0.8vh;display:flex;align-items:center;gap:1vw">
+    <span style="font-size:1.3vw">&#127775;</span>
+    <span style="font-family:'DM Mono',monospace;font-size:0.72vw;font-weight:700;color:var(--ml-yellow)">Insight para MELI: </span>
+    <span style="font-size:0.78vw;color:#CCC;line-height:1.4">Byrd e Quivo provam que embalagem customizada &eacute; um dealbreaker para marcas premium &mdash; algo que Amazon MCF proíbe. MELI pode lançar MCF permitindo packaging da marca, sendo o único player com escala que faz isso no LATAM.</span>
+  </div>
+</section>
+
+
+
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">07 · Ásia + Cross-border</span>
+      <h2 class="h2">Escala chinesa e a aposta de Alibaba em logística global.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s8-grid">
+    <div class="asia-card jd">
+      <div class="ah">
+        <div><h3>JD Logistics</h3><div class="sub">JD.com subsidiary · IPO 2021 · 3PL global</div></div>
+        <span class="pd-pill" style="background:var(--green-bg);color:var(--green)">🟢 CRESCENDO</span>
+      </div>
+      <div class="asia-stats">
+        <div class="a-stat"><div class="v">2.700+</div><div class="l">distritos China</div></div>
+        <div class="a-stat"><div class="v">100+</div><div class="l">warehouses globais</div></div>
+        <div class="a-stat"><div class="v">200+</div><div class="l">países entrega</div></div>
+      </div>
+      <div class="asia-section">
+        <h4>O que é</h4>
+        <p>"Global Omni-Channel Fulfillment" — marca despacha D2C + JD.com + outras plataformas chinesas de pool único. Cobertura same-day/next-day grandes cidades · 2-3 dias nacional.</p>
+      </div>
+      <div class="asia-section">
+        <h4>Use case-chave</h4>
+        <ul>
+          <li>Marcas internacionais entrando na China (inbound cross-border)</li>
+          <li>Marcas chinesas indo global (10M+ sq ft warehouse overseas)</li>
+        </ul>
+      </div>
+      <div class="signal-banner">Sinal · Expansão global agressiva</div>
+    </div>
+    <div class="asia-card cainiao">
+      <div class="ah">
+        <div><h3>Cainiao</h3><div class="sub">Alibaba · IPO cancelado · 100% propriedade</div></div>
+        <span class="pd-pill" style="background:var(--green-bg);color:var(--green)">🟢 CRESCENDO</span>
+      </div>
+      <div class="asia-stats">
+        <div class="a-stat"><div class="v">90%</div><div class="l">do cross-border mundial</div></div>
+        <div class="a-stat"><div class="v">5M+</div><div class="l">pacotes/dia</div></div>
+        <div class="a-stat"><div class="v">200+</div><div class="l">países</div></div>
+      </div>
+      <div class="asia-section">
+        <h4>Movimento de 2024</h4>
+        <p>Alibaba <strong>cancelou IPO</strong> da Cainiao e pagou <strong>$3,75B</strong> para comprar minoritários — sinal explícito de que logística cross-border é estratégica para Alibaba. "Global 5-Day Delivery" em 15+ países.</p>
+      </div>
+      <div class="asia-section">
+        <h4>Best fit</h4>
+        <ul>
+          <li>Marcas chinesas indo global (Shein, Temu, Anker)</li>
+          <li>Marcas internacionais entrando na China</li>
+          <li>10M+ sq m warehouses overseas</li>
+        </ul>
+      </div>
+      <div class="signal-banner">Sinal · Alibaba apostou bilhões</div>
+    </div>
+  </div>
+  <div class="s8-bottom-note">
+    <div class="ico">🇮🇳</div>
+    <div class="tx"><strong>Ekart (Flipkart) — Índia.</strong> 15.000+ pin codes · INR 13.733 Cr revenue FY25 (+13% YoY) · warehousing +27% YoY · "approaching profitability FY26" · 8-10% redução de custo de supply chain prometida ao seller. 🟡 CRESCENDO.</div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 9: CUBBO =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">07b &middot; Cainiao &mdash; A m&aacute;quina cross-border</span>
+      <h2 class="h2">5 milh&otilde;es de pacotes/dia. E j&aacute; est&aacute; no M&eacute;xico.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span><span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCH</span>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:1.5vw;">
+
+    <!-- LEFT: infra metrics -->
+    <div style="display:flex;flex-direction:column;gap:0.8vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:var(--cainiao);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2vh">Infraestrutura Global</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7vh;flex:1">
+        <div class="metric" style="padding:1vh 0.9vw">
+          <div style="font-size:1.5vw;font-weight:900;color:var(--cainiao);line-height:1">5M</div>
+          <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">pacotes/dia<br>cross-border</div>
+        </div>
+        <div class="metric" style="padding:1vh 0.9vw">
+          <div style="font-size:1.5vw;font-weight:900;color:var(--cainiao);line-height:1">$14B</div>
+          <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">receita<br>FY2025</div>
+        </div>
+        <div class="metric" style="padding:1vh 0.9vw">
+          <div style="font-size:1.5vw;font-weight:900;color:var(--cainiao);line-height:1">170</div>
+          <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">voos<br>fretados/sem.</div>
+        </div>
+        <div class="metric" style="padding:1vh 0.9vw">
+          <div style="font-size:1.5vw;font-weight:900;color:var(--cainiao);line-height:1">170K</div>
+          <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">pontos PUDO<br>maior rede do mundo</div>
+        </div>
+        <div class="metric" style="padding:1vh 0.9vw">
+          <div style="font-size:1.5vw;font-weight:900;color:var(--cainiao);line-height:1">380+</div>
+          <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">centros de<br>triagem globais</div>
+        </div>
+        <div class="metric" style="padding:1vh 0.9vw">
+          <div style="font-size:1.5vw;font-weight:900;color:var(--cainiao);line-height:1">200+</div>
+          <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">pa&iacute;ses<br>entregues</div>
+        </div>
+        <div class="metric" style="padding:1vh 0.9vw">
+          <div style="font-size:1.5vw;font-weight:900;color:var(--cainiao);line-height:1">40+</div>
+          <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">armazéns<br>no exterior</div>
+        </div>
+        <div class="metric" style="padding:1vh 0.9vw">
+          <div style="font-size:1.5vw;font-weight:900;color:var(--cainiao);line-height:1">3.000+</div>
+          <div style="font-size:0.62vw;color:var(--ml-gray-4);margin-top:0.2vh">parceiros<br>log&iacute;sticos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER: cross-border flow -->
+    <div style="display:flex;flex-direction:column;gap:0.7vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:var(--cainiao);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2vh">Fluxo China &rarr; Mundo (9 passos)</div>
+      <div class="card" style="padding:1.2vh 1.2vw;flex:1;display:flex;flex-direction:column;gap:0.5vh">
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--cainiao);color:#fff;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4">Coleta na China &mdash; Yiwu, Shenzhen, Quanzhou</span></div>
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--cainiao);color:#fff;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4">Triagem + digitaliza&ccedil;&atilde;o do e-waybill</span></div>
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--cainiao);color:#fff;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4">Desembara&ccedil;o de exporta&ccedil;&atilde;o &mdash; sistema aduaneiro inteligente</span></div>
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--cainiao);color:#fff;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4">Transporte a&eacute;reo (170 voos/sem.) ou mar&iacute;timo</span></div>
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--cainiao);color:#fff;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">5</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4">Hub de tr&acirc;nsito: Li&egrave;ge (EU), KL (SEA), HK (Am&eacute;ricas)</span></div>
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--cainiao);color:#fff;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">6</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4">Desembara&ccedil;o de importa&ccedil;&atilde;o no destino &mdash; "fast-in, fast-out"</span></div>
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--cainiao);color:#fff;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">7</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4">Triagem local (18 centros no exterior)</span></div>
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--cainiao);color:#fff;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">8</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4">&Uacute;ltima milha &mdash; rede pr&oacute;pria ou parceiros (UPS, FedEx, DHL, Correios locais)</span></div>
+        <div style="display:flex;gap:0.6vw;align-items:flex-start"><div style="background:var(--ml-yellow);color:#1A1A1A;font-family:'DM Mono',monospace;font-size:0.6vw;font-weight:700;min-width:1.3vw;height:1.3vw;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">9</div><span style="font-size:0.72vw;color:var(--ink);line-height:1.4"><strong>Entrega em 5 dias China &rarr; Europa</strong> &mdash; Global 5-Day Delivery</span></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: LATAM presence (threat!) -->
+    <div style="display:flex;flex-direction:column;gap:0.8vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:#DC2626;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2vh">&#9888;&#65039; Presen&ccedil;a no LATAM &mdash; j&aacute; chegou</div>
+      <div class="card" style="padding:1.2vh 1.2vw;border-left:3px solid #DC2626;flex:1;display:flex;flex-direction:column;gap:0.9vh">
+
+        <div style="background:#FEF2F2;border-radius:0.6vw;padding:0.9vh 1vw">
+          <div style="font-size:0.72vw;font-weight:700;color:#DC2626;margin-bottom:0.3vh">&#127474;&#127485; M&eacute;xico &mdash; entrada estrat&eacute;gica</div>
+          <div style="display:flex;flex-direction:column;gap:0.3vh">
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.4"><strong style="color:var(--ink)">Set 2024:</strong> Centro de triagem em Tultepec (CDMX) &mdash; cobre todos os 32 estados. China&rarr;MX em 12 dias &uacute;teis.</div>
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.4"><strong style="color:var(--ink)">Set 2025:</strong> Primeiro armazém pr&oacute;prio para entrega r&aacute;pida via AliExpress</div>
+            <div style="font-size:0.7vw;color:#DC2626;font-weight:600;line-height:1.4"><strong>Jan 2026:</strong> Lan&ccedil;a lane EUA&rarr;M&eacute;xico cobrindo 99% da popula&ccedil;&atilde;o a ~60% do pre&ccedil;o de mercado</div>
+          </div>
+        </div>
+
+        <div style="background:#FEF2F2;border-radius:0.6vw;padding:0.9vh 1vw">
+          <div style="font-size:0.72vw;font-weight:700;color:#DC2626;margin-bottom:0.3vh">&#127463;&#127479; Brasil</div>
+          <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.4">HQ LATAM em S&atilde;o Paulo (Nov 2022) &middot; Armazém em Viracopos (Campinas) &middot; 8 voos fretados/semana China&ndash;Brasil &middot; Expans&atilde;o para 1.000+ cidades at&eacute; 2025</div>
+        </div>
+
+        <div style="background:#FEF2F2;border-radius:0.6vw;padding:0.9vh 1vw">
+          <div style="font-size:0.72vw;font-weight:700;color:#DC2626;margin-bottom:0.3vh">&#127464;&#127473; Chile</div>
+          <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.4">Centro de triagem &middot; Rota area HK &ndash; S&atilde;o Paulo &ndash; Santiago</div>
+        </div>
+
+        <div style="background:#1A1A1A;border-radius:0.6vw;padding:0.9vh 1vw;margin-top:auto">
+          <div style="font-size:0.72vw;font-weight:700;color:var(--ml-yellow);margin-bottom:0.3vh">Implica&ccedil;&atilde;o para MELI</div>
+          <div style="font-size:0.7vw;color:#CCC;line-height:1.4">A Cainiao n&atilde;o compete com o modelo BwM+Full &mdash; mas aumenta a press&atilde;o competitiva <strong style="color:#fff">nos sellers mexicanos</strong> que o MELI serve: vendedores chineses entregam mais r&aacute;pido e mais barato via Cainiao a 60% do pre&ccedil;o de mercado.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">07c &middot; Ekart (Flipkart) &mdash; O espelho do MELI</span>
+      <h2 class="h2">Logística do marketplace aberta para sellers externos. O caminho j&aacute; foi trilhado.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span><span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCH</span>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:1fr 1.1fr 0.9fr;gap:1.5vw;">
+
+    <!-- LEFT: origin + infra -->
+    <div style="display:flex;flex-direction:column;gap:0.8vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:var(--ekart);letter-spacing:0.1em;text-transform:uppercase">Origem &amp; Escala</div>
+      <div class="card" style="padding:1.2vh 1.2vw;flex:1;display:flex;flex-direction:column;gap:0.8vh">
+        <div style="font-size:0.75vw;color:var(--ml-gray-4);line-height:1.5;border-left:2px solid var(--ekart);padding-left:0.6vw">
+          Criada em <strong style="color:var(--ink)">2009</strong> como log&iacute;stica interna do Flipkart para resolver um problema real: transportadoras indianas n&atilde;o faziam COD (pagamento na entrega). Virou subsidi&aacute;ria em <strong style="color:var(--ink)">2013</strong> e passou a atender marcas externas.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6vh">
+          <div class="metric" style="padding:0.8vh 0.7vw">
+            <div style="font-size:1.4vw;font-weight:900;color:var(--ekart);line-height:1">150+</div>
+            <div style="font-size:0.6vw;color:var(--ml-gray-4);margin-top:0.2vh">FCs<br>&amp; armazéns</div>
+          </div>
+          <div class="metric" style="padding:0.8vh 0.7vw">
+            <div style="font-size:1.4vw;font-weight:900;color:var(--ekart);line-height:1">20M+</div>
+            <div style="font-size:0.6vw;color:var(--ml-gray-4);margin-top:0.2vh">sqft de<br>armazenagem</div>
+          </div>
+          <div class="metric" style="padding:0.8vh 0.7vw">
+            <div style="font-size:1.4vw;font-weight:900;color:var(--ekart);line-height:1">3.800+</div>
+            <div style="font-size:0.6vw;color:var(--ml-gray-4);margin-top:0.2vh">hubs de<br>entrega</div>
+          </div>
+          <div class="metric" style="padding:0.8vh 0.7vw">
+            <div style="font-size:1.4vw;font-weight:900;color:var(--ekart);line-height:1">19.000+</div>
+            <div style="font-size:0.6vw;color:var(--ml-gray-4);margin-top:0.2vh">pincodes<br>cobertos</div>
+          </div>
+          <div class="metric" style="padding:0.8vh 0.7vw">
+            <div style="font-size:1.4vw;font-weight:900;color:var(--ekart);line-height:1">150K+</div>
+            <div style="font-size:0.6vw;color:var(--ml-gray-4);margin-top:0.2vh">entregadores<br>(wishmasters)</div>
+          </div>
+          <div class="metric" style="padding:0.8vh 0.7vw">
+            <div style="font-size:1.4vw;font-weight:900;color:var(--ekart);line-height:1">50+</div>
+            <div style="font-size:0.6vw;color:var(--ml-gray-4);margin-top:0.2vh">cidades<br>same-day</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER: D2C model + differentiators -->
+    <div style="display:flex;flex-direction:column;gap:0.8vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:var(--ekart);letter-spacing:0.1em;text-transform:uppercase">Modelo D2C para marcas externas</div>
+      <div class="card" style="padding:1.2vh 1.2vw;flex:1;display:flex;flex-direction:column;gap:0.7vh">
+        <div style="font-size:0.75vw;font-weight:700;color:var(--ink);margin-bottom:0.2vh">Como uma marca D2C usa a Ekart (10 passos)</div>
+        <div style="display:flex;flex-direction:column;gap:0.35vh">
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">1.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">Cadastro no portal Ekart + KYC + contrato de volume</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">2.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">Integra&ccedil;&atilde;o via API ou plugin (Shopify, WooCommerce, Unicommerce)</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">3.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">Inbound do estoque no FC designado &mdash; GRN + QC + catalogação</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">4.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">Pedido no site da marca &rarr; OMS Ekart em tempo real</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">5.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">WMS aloca o FC mais pr&oacute;ximo com estoque</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">6.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">Pick, pack com embalagem da marca, etiqueta AWB</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">7.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">Mid-mile: a&eacute;reo (express) ou rodoviário (standard)</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">8.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">Entrega com COD, OTP ou Open Box (cliente confere antes de assinar)</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">9.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">Tracking white-label + SMS/WhatsApp para o comprador</span></div>
+          <div style="display:flex;gap:0.5vw"><span style="color:var(--ekart);font-size:0.72vw;flex-shrink:0">10.</span><span style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">COD repassado em T+5 a T+8 dias; devolu&ccedil;&otilde;es processadas</span></div>
+        </div>
+        <div style="background:#FEF3E8;border-radius:0.5vw;padding:0.7vh 0.8vw;margin-top:0.3vh">
+          <div style="font-size:0.7vw;font-weight:700;color:var(--ekart)">Diferenciais exclusivos na &Iacute;ndia</div>
+          <div style="font-size:0.7vw;color:var(--ml-gray-4);margin-top:0.2vh;line-height:1.4"><strong style="color:var(--ink)">COD (Cash on Delivery):</strong> ~65% das compras indianas s&atilde;o pagas na entrega &mdash; a Ekart foi pioneira em 2010 e domina esse fluxo.</div>
+          <div style="font-size:0.7vw;color:var(--ml-gray-4);margin-top:0.3vh;line-height:1.4"><strong style="color:var(--ink)">Open Box Delivery:</strong> entregador espera o cliente ligar o produto e confirmar funcionamento antes de assinar. Reduziu dramaticamente fraudes em eletr&ocirc;nicos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: market context + IPO signal -->
+    <div style="display:flex;flex-direction:column;gap:0.8vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:var(--ekart);letter-spacing:0.1em;text-transform:uppercase">Contexto &amp; Sinal</div>
+      <div class="card" style="padding:1.2vh 1.2vw;flex:1;display:flex;flex-direction:column;gap:0.8vh">
+        <div style="font-size:0.75vw;font-weight:700;color:var(--ink)">Mercado de log&iacute;stica e-commerce &mdash; &Iacute;ndia</div>
+        <div style="display:flex;flex-direction:column;gap:0.4vh">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.5vh 0.7vw">
+            <span style="font-size:0.7vw;color:var(--ml-gray-4)">Mercado 2023</span>
+            <span style="font-size:0.72vw;font-weight:700;color:var(--ekart)">$5&ndash;7B</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.5vh 0.7vw">
+            <span style="font-size:0.7vw;color:var(--ml-gray-4)">Mercado 2027E</span>
+            <span style="font-size:0.72vw;font-weight:700;color:var(--ekart)">$12&ndash;15B</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.5vh 0.7vw">
+            <span style="font-size:0.7vw;color:var(--ml-gray-4)">CAGR</span>
+            <span style="font-size:0.72vw;font-weight:700;color:var(--ekart)">~20&ndash;25%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.5vh 0.7vw">
+            <span style="font-size:0.7vw;color:var(--ml-gray-4)">Volume anual</span>
+            <span style="font-size:0.72vw;font-weight:700;color:var(--ekart)">4&ndash;5B envios</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.5vh 0.7vw">
+            <span style="font-size:0.7vw;color:var(--ml-gray-4)">Share Ekart</span>
+            <span style="font-size:0.72vw;font-weight:700;color:var(--ekart)">~25&ndash;30%</span>
+          </div>
+        </div>
+        <div style="background:#0D2B0D;border-radius:0.6vw;padding:0.9vh 0.9vw;margin-top:0.3vh">
+          <div style="font-size:0.68vw;font-weight:700;color:#4CAF50;margin-bottom:0.3vh">&#9679; Sinal de investimento: CRESCENDO</div>
+          <div style="font-size:0.68vw;color:#AAA;line-height:1.4">Flipkart prep IPO 2025&ndash;2026 &rarr; Ekart otimiza unit economics para valora&ccedil;&atilde;o. Walmart ap&oacute;rta $600M+. Frota 100% el&eacute;trica at&eacute; 2030.</div>
+        </div>
+        <div style="background:#FFF3E0;border-radius:0.6vw;padding:0.9vh 0.9vw">
+          <div style="font-size:0.68vw;font-weight:700;color:var(--ekart);margin-bottom:0.3vh">Paralelo direto com MELI</div>
+          <div style="font-size:0.68vw;color:var(--ml-gray-4);line-height:1.4">A Ekart percorreu <em>exatamente</em> o caminho que o MELI considera: log&iacute;stica do marketplace &rarr; aberta para D2C externo. O resultado: bilh&otilde;es de pedidos/ano e uma plataforma que vai al&eacute;m do ecossistema captivo.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">08 · LATAM · Concorrente direto</span>
+      <h2 class="h2">Cubbo — a única empresa fazendo isso no território MELI.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s9-grid">
+    <div class="cubbo-hero">
+      <div class="ch">
+        <div><h3>Cubbo</h3><div class="sub">Mexico-born · VC-backed · fundada 2020</div></div>
+        <span class="pd-pill" style="background:#EBE3FB;color:var(--cubbo)">🟡 CRESCENDO</span>
+      </div>
+      <div class="cubbo-warn">⚠ Concorrente direto a um eventual MELI MCF · 200+ marcas · MX/BR/CO · 250.000 sq ft em CDMX</div>
+      <div class="cubbo-pricing">
+        <h4>Pricing público (MXN) — extremamente transparente</h4>
+        <div class="price-rows">
+          <div class="price-row"><span class="l">Storage minibin</span><span class="v">a partir de $1/mês</span></div>
+          <div class="price-row"><span class="l">Storage pallet</span><span class="v">$750/mês</span></div>
+          <div class="price-row"><span class="l">Pick & Pack</span><span class="v">a partir de $18/peça</span></div>
+          <div class="price-row"><span class="l">Same-day CDMX 1-15kg</span><span class="v">$69/guia</span></div>
+          <div class="price-row"><span class="l">Economy 1-2kg</span><span class="v">$106/guia</span></div>
+          <div class="price-row"><span class="l">Premium 1kg</span><span class="v">$154/guia</span></div>
+        </div>
+      </div>
+      <div class="cubbo-allin">
+        <div class="l">All-in por pedido (stored+pick+pack+ship)</div>
+        <div class="v">~MXN 105+</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'DM Mono';font-size:0.78vw;color:var(--ml-gray-4);padding-top:0.4vh;border-top:1px dashed #E5E5E5">
+        <span>SLA same-day CDMX · 1,3d nacional</span>
+        <span>SEM setup · SEM mínimo · SEM mensalidade · SEM taxa oculta</span>
+      </div>
+    </div>
+    <div class="cubbo-side">
+      <div class="cs-block">
+        <h4><span class="dot"></span>Pros · O que Cubbo faz bem</h4>
+        <ul>
+          <li>Sem mínimo de volume · pricing transparente público</li>
+          <li>Operação 7d/semana</li>
+          <li>Importer of Record (IOR) + Merchant of Record (MOR)</li>
+          <li>Branding e inserts customizados (algo que Amazon MCF não permite)</li>
+          <li>LATAM-native — entende moeda, alfândega, last-mile</li>
+          <li>Integra Shopify, WooCommerce, VTEX, MELI, Amazon, TikTok, Wake</li>
+        </ul>
+      </div>
+      <div class="cs-block">
+        <h4><span class="dot"></span>Cons · Onde Cubbo é fraco</h4>
+        <ul>
+          <li>Sem rede marketplace para alimentar volume</li>
+          <li>Sem dados first-party de comprador</li>
+          <li>Não consegue oferecer "Envíos MELI" como SLA</li>
+          <li>Sem badge de confiança ao comprador final</li>
+          <li>Limitado a 3 países (MX, BR, CO)</li>
+          <li>VC-backed — incerto longo prazo</li>
+        </ul>
+      </div>
+      <div class="cs-block adv">
+        <h4 style="color:var(--ml-yellow)"><span class="dot" style="background:var(--ml-yellow)"></span>Vantagens MELI sobre Cubbo</h4>
+        <ul>
+          <li>Badge "Envíos MELI" no checkout D2C = equivalente Buy with Prime</li>
+          <li>Dados first-party de compradores LATAM</li>
+          <li>21 CDs já operando no México</li>
+          <li>Última milha Envíos MELI (SLA superior)</li>
+          <li>Onboarding de seller já feito para omnichannel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 10: MATRIX =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">08b &middot; Cubbo &mdash; An&aacute;lise Profunda</span>
+      <h2 class="h2">Incumbente credível, mas com vulnerabilidades estruturais vis-&agrave;-vis MELI.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span><span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCH</span>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:1.1fr 0.9fr 1fr;gap:1.5vw;">
+
+    <!-- LEFT: IOR/MOR — the key differentiator -->
+    <div style="display:flex;flex-direction:column;gap:0.8vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:var(--cubbo);letter-spacing:0.1em;text-transform:uppercase">Servi&ccedil;o mais estrat&eacute;gico: IOR + MOR</div>
+      <div class="card" style="padding:1.2vh 1.2vw;flex:1;display:flex;flex-direction:column;gap:0.8vh;border-top:2px solid var(--cubbo)">
+        <div style="font-size:0.75vw;font-weight:700;color:var(--ink)">O que &eacute; IOR + MOR?</div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">Uma marca americana ou europeia que quer vender no M&eacute;xico precisa de: RFC, customs broker, entidade jur&iacute;dica local, emiss&atilde;o de CFDI (nota fiscal). Isso leva meses. A Cubbo resolve tudo.</div>
+        <div style="background:#F3F0FF;border-radius:0.6vw;padding:0.9vh 1vw;border-left:3px solid var(--cubbo)">
+          <div style="font-size:0.72vw;font-weight:700;color:var(--cubbo);margin-bottom:0.4vh">IOR &mdash; Importer of Record</div>
+          <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.4">Cubbo usa sua entidade jur&iacute;dica mexicana para fazer a importa&ccedil;&atilde;o. Assume toda a responsabilidade fiscal e aduaneira. Gerencia NOM compliance (cosm&eacute;ticos, eletr&ocirc;nicos), declara&ccedil;&atilde;o eletr&ocirc;nica via VUCEM, suporte a auditorias SAT por 5 anos.</div>
+        </div>
+        <div style="background:#F3F0FF;border-radius:0.6vw;padding:0.9vh 1vw;border-left:3px solid var(--cubbo)">
+          <div style="font-size:0.72vw;font-weight:700;color:var(--cubbo);margin-bottom:0.4vh">MOR &mdash; Merchant of Record</div>
+          <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.4">Cubbo vende em nome da marca em pesos mexicanos, cobra IVA e emite CFDIs. Repassa o l&iacute;quido via nota de servi&ccedil;o. A marca nunca precisa de RFC ou estrutura fiscal local.</div>
+        </div>
+        <div style="background:#F3F0FF;border-radius:0.6vw;padding:0.9vh 1vw">
+          <div style="font-size:0.7vw;font-weight:700;color:var(--cubbo);margin-bottom:0.3vh">Bundle IOR + MOR + 3PL</div>
+          <div style="font-size:0.68vw;color:var(--ml-gray-4);line-height:1.35">Marca em LA ou Barcelona &rarr; estoque entra no M&eacute;xico &rarr; entrega em 1,3 dias &rarr; sem RFC, sem customs broker, sem estrutura local. Setup em 30&ndash;60 dias.</div>
+          <div style="font-size:0.68vw;color:var(--ml-gray-4);line-height:1.35;margin-top:0.3vh"><strong style="color:var(--cubbo)">Ameaça para MELI:</strong> captura marcas internacionais antes que o MELI tenha a chance de oferecer Full para elas.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER: funding + financials + pivot -->
+    <div style="display:flex;flex-direction:column;gap:0.8vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:var(--cubbo);letter-spacing:0.1em;text-transform:uppercase">Financeiro &amp; Dire&ccedil;&atilde;o Estrat&eacute;gica</div>
+      <div class="card" style="padding:1.2vh 1.2vw;flex:1;display:flex;flex-direction:column;gap:0.8vh">
+        <div style="font-size:0.75vw;font-weight:700;color:var(--ink)">Hist&oacute;rico de funding &mdash; muito enxuto</div>
+        <div style="display:flex;flex-direction:column;gap:0.35vh">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.45vh 0.7vw">
+            <span style="font-size:0.68vw;color:var(--ml-gray-4)">Pre-Seed (2021)</span>
+            <span style="font-size:0.7vw;font-weight:700;color:var(--cubbo)">~$3M</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.45vh 0.7vw">
+            <span style="font-size:0.68vw;color:var(--ml-gray-4)">Seed &mdash; SV LatAm (Nov 2021)</span>
+            <span style="font-size:0.7vw;font-weight:700;color:var(--cubbo)">$4M</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.45vh 0.7vw">
+            <span style="font-size:0.68vw;color:var(--ml-gray-4)">Pre-Series A &mdash; Gerdau Next (2022)</span>
+            <span style="font-size:0.7vw;font-weight:700;color:var(--cubbo)">~$5M</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:#1A1A1A;border-radius:0.4vw;padding:0.45vh 0.7vw">
+            <span style="font-size:0.68vw;color:#AAA;font-weight:600">Total levantado</span>
+            <span style="font-size:0.7vw;font-weight:700;color:var(--ml-yellow)">~$10,8M</span>
+          </div>
+        </div>
+        <div style="font-size:0.75vw;font-weight:700;color:var(--ink);margin-top:0.2vh">Financeiro 2024</div>
+        <div style="display:flex;flex-direction:column;gap:0.35vh">
+          <div style="display:flex;justify-content:space-between;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.45vh 0.7vw">
+            <span style="font-size:0.68vw;color:var(--ml-gray-4)">Receita 2024</span>
+            <span style="font-size:0.7vw;font-weight:700;color:var(--ink)">~$16M <span style="color:#DC2626;font-weight:400">(rev. de $23M)</span></span>
+          </div>
+          <div style="display:flex;justify-content:space-between;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.45vh 0.7vw">
+            <span style="font-size:0.68vw;color:var(--ml-gray-4)">EBITDA</span>
+            <span style="font-size:0.7vw;font-weight:700;color:var(--green)">~$500K positivo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.45vh 0.7vw">
+            <span style="font-size:0.68vw;color:var(--ml-gray-4)">Capital eficiência</span>
+            <span style="font-size:0.7vw;font-weight:700;color:var(--cubbo)">$378K &rarr; $13,5M</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;background:var(--ml-gray-bg);border-radius:0.4vw;padding:0.45vh 0.7vw">
+            <span style="font-size:0.68vw;color:var(--ml-gray-4)">Crescimento pedidos</span>
+            <span style="font-size:0.7vw;font-weight:700;color:var(--cubbo)">+150% YoY</span>
+          </div>
+        </div>
+        <div style="background:#2A1A3A;border-radius:0.6vw;padding:0.9vh 0.9vw;margin-top:0.2vh">
+          <div style="font-size:0.68vw;font-weight:700;color:#C4B0F0;margin-bottom:0.3vh">Pivot estrat&eacute;gico em curso</div>
+          <div style="font-size:0.66vw;color:#AAA;line-height:1.4">3PL puro &rarr; infraestrutura/software. Est&atilde;o licenciando TMS para carriers parceiros. Modelo SaaS tem margem muito maior. CEO menciona "ofertas de aquisi&ccedil;&atilde;o recebidas" &mdash; poss&iacute;vel sinal de exit.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: reviews + MELI advantage -->
+    <div style="display:flex;flex-direction:column;gap:0.8vh;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.62vw;font-weight:600;color:var(--cubbo);letter-spacing:0.1em;text-transform:uppercase">Reviews &amp; Vantagens MELI</div>
+      <div style="display:flex;flex-direction:column;gap:0.7vh;flex:1">
+        <div class="card" style="padding:1.1vh 1.1vw">
+          <div style="font-size:0.72vw;font-weight:700;color:var(--green);margin-bottom:0.4vh">&#10003; O que marcas elogiam</div>
+          <div style="display:flex;flex-direction:column;gap:0.3vh">
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">&#10003; Integra&ccedil;&atilde;o f&aacute;cil com Shopify e marketplaces</div>
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">&#10003; Visibilidade em tempo real dos pedidos</div>
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">&#10003; Redu&ccedil;&atilde;o de custo vs. galpão pr&oacute;prio</div>
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">&#10003; Time de CS responsivo</div>
+          </div>
+        </div>
+        <div class="card" style="padding:1.1vh 1.1vw">
+          <div style="font-size:0.72vw;font-weight:700;color:#DC2626;margin-bottom:0.4vh">&#10007; Reclamações recorrentes (Capterra)</div>
+          <div style="display:flex;flex-direction:column;gap:0.3vh">
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">&#10007; Carriers terceiros remarcam entregas</div>
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">&#10007; Bugs na sinc com Shopify em picos</div>
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">&#10007; Analytics/relat&oacute;rios limitados</div>
+            <div style="font-size:0.7vw;color:var(--ml-gray-4);line-height:1.35">&#10007; Degrada em Hot Sale / Buen Fin</div>
+          </div>
+        </div>
+        <div style="background:#1A1A1A;border-radius:0.8vw;padding:1.1vh 1.1vw;flex:1">
+          <div style="font-size:0.72vw;font-weight:700;color:var(--ml-yellow);margin-bottom:0.5vh">Vantagens estruturais do MELI</div>
+          <div style="display:flex;flex-direction:column;gap:0.38vh">
+            <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--ml-yellow);font-size:0.72vw;flex-shrink:0">&#10003;</span><span style="font-size:0.68vw;color:#CCC;line-height:1.35">Envios MELI = &uacute;ltima milha pr&oacute;pria vs. carriers terceiros da Cubbo</span></div>
+            <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--ml-yellow);font-size:0.72vw;flex-shrink:0">&#10003;</span><span style="font-size:0.68vw;color:#CCC;line-height:1.35">50M+ compradores com hist&oacute;rico &rarr; dados que a Cubbo nunca ter&aacute;</span></div>
+            <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--ml-yellow);font-size:0.72vw;flex-shrink:0">&#10003;</span><span style="font-size:0.68vw;color:#CCC;line-height:1.35">Selo "Env&iacute;os Meli" no checkout D2C = "Buy with Prime" para o LATAM</span></div>
+            <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--ml-yellow);font-size:0.72vw;flex-shrink:0">&#10003;</span><span style="font-size:0.68vw;color:#CCC;line-height:1.35">21 CDs j&aacute; operando &rarr; custo marginal baixo vs. construir do zero</span></div>
+            <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--ml-yellow);font-size:0.72vw;flex-shrink:0">&#10003;</span><span style="font-size:0.68vw;color:#CCC;line-height:1.35">Capital para escalar sem restri&ccedil;&atilde;o (Cubbo tem $10,8M total)</span></div>
+            <div style="display:flex;gap:0.5vw;align-items:flex-start"><span style="color:var(--ml-yellow);font-size:0.72vw;flex-shrink:0">&#10003;</span><span style="font-size:0.68vw;color:#CCC;line-height:1.35">Sellers MELI j&aacute; fazem inbound &rarr; custo zero para habilitar canal OFF</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">09 · Matriz comparativa</span>
+      <h2 class="h2">Todos os players em 7 dimensões-chave.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="matrix-wrap">
+    <div class="matrix">
+      <div class="head">Player</div>
+      <div class="head">Cobertura</div>
+      <div class="head">Marketplace alimentando volume</div>
+      <div class="head">Branding custom</div>
+      <div class="head">Pricing público</div>
+      <div class="head">Mínimo volume</div>
+      <div class="head">Cross-border</div>
+      <div class="head">Sinal</div>
+
+      <div class="player amazon">Amazon MCF</div>
+      <div>EUA + 10 países</div>
+      <div class="yes">Sim · massivo</div>
+      <div class="no">Não (box unbranded)</div>
+      <div class="partial">Parcial</div>
+      <div class="yes">Sem mínimo</div>
+      <div class="yes">Sim</div>
+      <div><span class="sig-cell sig-green">Forte ↑</span></div>
+
+      <div class="player walmart">Walmart MCS</div>
+      <div>EUA</div>
+      <div class="yes">Sim (precisa WFS antes)</div>
+      <div class="no">Não</div>
+      <div class="yes">Sim</div>
+      <div class="yes">Sem mínimo</div>
+      <div class="no">Não</div>
+      <div><span class="sig-cell sig-amber">Crescendo</span></div>
+
+      <div class="player shopify">Shopify/Flexport</div>
+      <div>EUA</div>
+      <div class="no">Não (saiu)</div>
+      <div class="partial">Parcial</div>
+      <div class="partial">$5k/mês fixo</div>
+      <div class="no">Volume mínimo alto</div>
+      <div class="no">Não</div>
+      <div><span class="sig-cell sig-red">Retraindo</span></div>
+
+      <div class="player zeos">ZEOS (Zalando)</div>
+      <div>27 mercados EU</div>
+      <div class="yes">Sim · fashion only</div>
+      <div class="partial">Parcial</div>
+      <div class="no">Enterprise/sob consulta</div>
+      <div class="no">Enterprise</div>
+      <div class="partial">Pan-EU</div>
+      <div><span class="sig-cell sig-amber">Moderado</span></div>
+
+      <div class="player jd">JD Logistics</div>
+      <div>China + 100 wh global</div>
+      <div class="yes">Sim · JD.com</div>
+      <div class="yes">Sim</div>
+      <div class="partial">Cotação</div>
+      <div class="yes">Flexível</div>
+      <div class="yes">Sim · 200+ países</div>
+      <div><span class="sig-cell sig-green">Forte ↑</span></div>
+
+      <div class="player cainiao">Cainiao</div>
+      <div>200+ países</div>
+      <div class="yes">Sim · Alibaba/AliExpress</div>
+      <div class="partial">Parcial</div>
+      <div class="no">Sob consulta</div>
+      <div class="partial">Cross-border</div>
+      <div class="yes">Sim · 90% global</div>
+      <div><span class="sig-cell sig-green">Forte ↑</span></div>
+
+      <div class="player cubbo">Cubbo</div>
+      <div>MX · BR · CO</div>
+      <div class="no">Não tem</div>
+      <div class="yes">Sim · inserts</div>
+      <div class="yes">Sim · público</div>
+      <div class="yes">Sem mínimo</div>
+      <div class="partial">IOR/MOR</div>
+      <div><span class="sig-cell sig-amber">Crescendo</span></div>
+
+      <div class="player byrd">Byrd / Quivo</div>
+      <div>EU · UK · GCC · US</div>
+      <div class="no">Não</div>
+      <div class="yes">Sim · full white-label</div>
+      <div class="partial">Cotação / rate card</div>
+      <div class="partial">Quote-based</div>
+      <div class="partial">EU + Golfo</div>
+      <div><span class="sig-cell sig-amber">Nicho estável</span></div>
+
+      <div class="player ekart">Ekart (Flipkart)</div>
+      <div>Índia · 15k pin codes</div>
+      <div class="yes">Sim · Flipkart</div>
+      <div class="partial">Parcial</div>
+      <div class="no">Enterprise</div>
+      <div class="partial">B2B contratos</div>
+      <div class="no">Não</div>
+      <div><span class="sig-cell sig-amber">Crescendo</span></div>
+
+      <div class="player meli-row" style="font-weight:800">MELI MCF (proposto)</div>
+      <div class="meli-row">21 CDs MX (BR/AR potencial)</div>
+      <div class="meli-row yes">Sim · marketplace 100M+ users</div>
+      <div class="meli-row partial">A definir</div>
+      <div class="meli-row partial">A definir</div>
+      <div class="meli-row partial">A definir</div>
+      <div class="meli-row partial">A definir</div>
+      <div class="meli-row"><span class="sig-cell" style="background:var(--ml-yellow);color:var(--ml-black)">Oportunidade</span></div>
+    </div>
+    <div class="matrix-key">
+      <span class="yes">Sim / forte</span>
+      <span class="partial">Parcial / depende</span>
+      <span class="no">Não / fraco</span>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 11: INSIGHTS =============== -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">10 · Insights de produto</span>
+      <h2 class="h2">6 padrões que se repetem em todos os mercados.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s11-grid">
+    <div class="insight">
+      <div class="num">01</div>
+      <div class="t">Marketplace alimenta volume — sem ele, o produto morre.</div>
+      <div class="b">Todos os ganhadores (Amazon, Walmart, JD, Zalando, Cainiao, Flipkart) têm marketplace que injeta volume diário no FC. Shopify tentou sem marketplace e gastou $2,1B em vão.</div>
+      <div class="ev">Evidência · Shopify-Flexport · Amazon vs. Cubbo</div>
+    </div>
+    <div class="insight">
+      <div class="num">02</div>
+      <div class="t">Single inventory pool é o "killer feature" para o seller.</div>
+      <div class="b">O argumento de venda nº 1: mesmo SKU rodando em marketplace + D2C + outras plataformas. Amazon entrega +12% em inventory turn e -19% em out-of-stock.</div>
+      <div class="ev">Evidência · Amazon survey n=224 · ZEOS · JD</div>
+    </div>
+    <div class="insight">
+      <div class="num">03</div>
+      <div class="t">Branding do seller é o trade-off mais doloroso do MCF.</div>
+      <div class="b">Amazon proíbe inserts e logos no box. Byrd, Quivo e Cubbo usam isso como diferencial. Marca premium e DTC nativo recusam o "box genérico".</div>
+      <div class="ev">Evidência · Byrd · Quivo · Cubbo · Amazon</div>
+    </div>
+    <div class="insight">
+      <div class="num">04</div>
+      <div class="t">"Buy with Prime" é a peça mais subestimada do MCF.</div>
+      <div class="b">Adicionar badge de confiança no checkout do D2C dá +25% conversão. É o trust signal do marketplace exportado para fora dele — vantagem que apenas marketplaces podem oferecer.</div>
+      <div class="ev">Evidência · Amazon Buy with Prime US</div>
+    </div>
+    <div class="insight">
+      <div class="num">05</div>
+      <div class="t">Pricing transparente público é vantagem competitiva.</div>
+      <div class="b">Cubbo, Walmart e Amazon publicam tarifas. Zalando, Byrd e Flexport pedem cotação. Sellers SMB escolhem por velocidade de avaliação — ganha quem expõe preço.</div>
+      <div class="ev">Evidência · Cubbo MXN público · Amazon US tabela</div>
+    </div>
+    <div class="insight">
+      <div class="num">06</div>
+      <div class="t">Não tem volume mínimo. Não cobra mensalidade.</div>
+      <div class="b">Modelos com mínimo (Flexport $5k/mês, Zalando enterprise) sangram SMBs. Modelos pay-per-use (Amazon, Walmart, Cubbo) capturam a long-tail — onde está o volume agregado.</div>
+      <div class="ev">Evidência · êxodo Flexport → MCF · Cubbo 200+ marcas</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SLIDE 12: MELI IMPLICATIONS =============== -->
+<section class="slide dark" style="background:#0A0A0A;color:#fff">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill dark">11 · Implicações para MELI</span>
+      <div class="s12-headline">O que <span class="yh">só o MELI</span> consegue fazer no México — e nenhum dos 9 players consegue.</div>
+      <p class="s12-sub">Pensando o produto não como cópia da Amazon MCF, mas como a versão LATAM-native que aproveita ativos que só o MELI tem.</p>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name" style="color:#fff">Mercado Libre</span>
+        <span class="deck-tag" style="color:rgba(255,255,255,0.5)">FULFILLMENT BENCHMARK</span>
+      </div>
+    </div>
+  </div>
+  <div class="s12-wrap">
+    <div class="s12-grid">
+      <div class="adv-card featured">
+        <div class="ah">Diferencial nº 1</div>
+        <div class="at">Badge "Envíos MELI" no checkout do D2C.</div>
+        <div class="ab">O equivalente LATAM ao Buy with Prime — só que com o trust signal mais forte do continente. Amazon teve +25% conversão. MELI já é o badge de confiança em compras online no MX.</div>
+        <div class="ev">Inspirado em · Amazon Buy with Prime</div>
+      </div>
+      <div class="adv-card">
+        <div class="ah">Diferencial nº 2</div>
+        <div class="at">21 CDs já operando — capacidade ociosa.</div>
+        <div class="ab">Não precisamos construir rede. A infraestrutura está dimensionada. O incremento marginal de servir D2C com a mesma rede tem CAC quase zero. Cubbo tem 1 CD; nós temos 21.</div>
+        <div class="ev">Capacidade México · 2026</div>
+      </div>
+      <div class="adv-card">
+        <div class="ah">Diferencial nº 3</div>
+        <div class="at">Pool único: estoque Full → MELI + Shopify/VTEX do seller.</div>
+        <div class="ab">A hipótese central. O seller já tem estoque Full. Liberar o mesmo SKU para alimentar o canal D2C dele = Amazon-style single inventory pool, +19% em vendas off-marketplace.</div>
+        <div class="ev">Insight · Amazon n=224</div>
+      </div>
+      <div class="adv-card">
+        <div class="ah">Diferencial nº 4</div>
+        <div class="at">Onboarding de seller já feito para omnichannel.</div>
+        <div class="ab">Sellers Full no MX já passaram pelo onboarding logístico do MELI. A barreira de entrada Walmart-MCS ("seja WFS antes") não existe — para esses sellers, o setup do MCF é zero.</div>
+        <div class="ev">Base instalada · Full MX</div>
+      </div>
+      <div class="adv-card">
+        <div class="ah">Diferencial nº 5</div>
+        <div class="at">Dados first-party de comprador LATAM.</div>
+        <div class="ab">Cubbo é cego — não sabe quem está comprando. Nós conhecemos hábito, frete preferido, repeat rate, devolução por SKU. Isso vira inteligência de demanda no D2C — algo que nenhum 3PL replica.</div>
+        <div class="ev">Vs. Cubbo · Byrd · Quivo</div>
+      </div>
+      <div class="adv-card">
+        <div class="ah">Diferencial nº 6</div>
+        <div class="at">Última milha Envíos MELI = SLA que ninguém na LATAM bate.</div>
+        <div class="ab">O 3PL melhor da LATAM (Cubbo) faz 1,3 dias nacional. Envíos MELI same-day em CDMX/Monterrey/Guadalajara é o melhor SLA disponível — e ninguém mais consegue oferecer ao D2C.</div>
+        <div class="ev">Vantagem · Envíos MELI MX</div>
+      </div>
+    </div>
+    <div class="s12-cta">
+      <div class="ct">Próximo passo recomendado: <strong>discovery curto (4 semanas)</strong> com 8-10 sellers Full MX que também têm site D2C — testar willingness-to-pay e prioridade vs. branding.</div>
+      <div class="cs">Elephant Discovery 2026</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-title-block">
+      <span class="pill">13 &middot; Fontes &amp; Refer&ecirc;ncias</span>
+      <h2 class="h2">Toda informa&ccedil;&atilde;o aqui tem fonte verific&aacute;vel.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag">ML</span>
+        <span class="meli-name">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCH</span>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;overflow:hidden;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2vw;padding:0.5vh 0">
+
+    <div class="card" style="display:flex;flex-direction:column;gap:0.7vh;padding:1.4vh 1.4vw">
+      <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+        <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:var(--amazon);flex-shrink:0"></div>
+        <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:var(--amazon);letter-spacing:0.08em;text-transform:uppercase">Amazon MCF</span>
+      </div>
+      <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5;font-family:DM Sans,sans-serif">
+        supplychain.amazon.com/mcf<br>
+        supplychain.amazon.com/mcf/global<br>
+        supplychain.amazon.com/integrations<br>
+        sell.amazon.com/programs/supply-chain<br>
+        vender.amazon.com.mx &mdash; MCF Mexico<br>
+        amzprep.com &mdash; MCF 2026 Fee Guide<br>
+        myamazonguy.com &mdash; Preferred Pricing 2026<br>
+        supplychaindive.com &mdash; Fee Increases Jan 2026<br>
+        press.aboutamazon.com &mdash; MCF expands SHEIN/Walmart (Sep 2025)<br>
+        forrester.com &mdash; Amazon Accelerate 2025<br>
+        feedonomics.com &mdash; MCF Guide 2025<br>
+        supplychain.amazon.com/blog/unbranded-packaging
+      </div>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column;gap:1.2vh;padding:1.4vh 1.4vw">
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+          <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:var(--walmart);flex-shrink:0"></div>
+          <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:var(--walmart);letter-spacing:0.08em;text-transform:uppercase">Walmart MCS</span>
+        </div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">
+          marketplace.walmart.com/multichannel-solutions<br>
+          marketplacelearn.walmart.com &mdash; MCS Pricing Detail
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+          <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:#96BF48;flex-shrink:0"></div>
+          <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:#5B8A1A;letter-spacing:0.08em;text-transform:uppercase">Shopify / Flexport</span>
+        </div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">
+          sterlingandwells.com &mdash; SFN/Flexport status<br>
+          community.shopify.com &mdash; Flexport $5,000/month (2026)
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+          <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:var(--zeos);flex-shrink:0"></div>
+          <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:var(--zeos);letter-spacing:0.08em;text-transform:uppercase">ZEOS (Zalando)</span>
+        </div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">
+          zeos.eu/our-story<br>
+          metyis.com &mdash; ZEOS Multichannel Fulfillment Analysis
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+          <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:var(--cubbo);flex-shrink:0"></div>
+          <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:var(--cubbo);letter-spacing:0.08em;text-transform:uppercase">Cubbo (LATAM)</span>
+        </div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">
+          cubbo.com/en/prices &mdash; Pricing oficial publicado<br>
+          fulfill.com &mdash; Cubbo Provider Profile
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column;gap:1.2vh;padding:1.4vh 1.4vw">
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+          <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:var(--jd);flex-shrink:0"></div>
+          <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:var(--jd);letter-spacing:0.08em;text-transform:uppercase">JD Logistics</span>
+        </div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">
+          prnewswire.com &mdash; JD Logistics International Roadmap 2025
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+          <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:var(--cainiao);flex-shrink:0"></div>
+          <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:var(--cainiao);letter-spacing:0.08em;text-transform:uppercase">Cainiao (Alibaba)</span>
+        </div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">
+          cnbc.com &mdash; Alibaba Scraps Cainiao IPO (2024)<br>
+          xinhua.net &mdash; Cainiao Global Expansion 2025
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+          <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:var(--byrd);flex-shrink:0"></div>
+          <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:#1A7A45;letter-spacing:0.08em;text-transform:uppercase">Byrd / Quivo</span>
+        </div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">
+          getbyrd.com/en/pricing<br>
+          quivo.co/en
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5vw;margin-bottom:0.4vh">
+          <div style="width:0.6vw;height:0.6vw;border-radius:50%;background:var(--ekart);flex-shrink:0"></div>
+          <span style="font-family:DM Mono,monospace;font-size:0.6vw;font-weight:600;color:var(--ekart);letter-spacing:0.08em;text-transform:uppercase">Ekart / India</span>
+        </div>
+        <div style="font-size:0.72vw;color:var(--ml-gray-4);line-height:1.5">
+          yourstory.com &mdash; Ekart D2C Scaling 2026<br>
+          inc42.com &mdash; Meesho logistics 2025<br>
+          prnewswire.com &mdash; Rakuten to ShipNetwork (2022)<br>
+          indiadispatch.com &mdash; Amazon/Flipkart/Meesho consolidation
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div style="background:var(--ml-gray-bg);border-radius:0.8vw;padding:1.1vh 1.4vw;margin-top:0.8vh;display:flex;align-items:center;gap:1vw">
+    <span style="font-size:1.1vw">&#128274;</span>
+    <span style="font-family:DM Sans,sans-serif;font-size:0.75vw;color:var(--ml-gray-4);line-height:1.4">
+      Dados coletados de fontes p&uacute;blicas (sites oficiais, press releases, relat&oacute;rios de analistas e comunidades de sellers) entre Abril e Maio de 2026.
+      Pre&ccedil;os e m&eacute;tricas est&atilde;o sujeitos a atualiza&ccedil;&atilde;o pelos respectivos players. Elaborado para uso interno &mdash; ME OFF &middot; Produto MLM.
+    </span>
+  </div>
+</section>
+
+
+<section class="slide dark" style="background:#0A0A0A;color:#fff">
+  <div class="slide-header" style="border-bottom:1px solid #222">
+    <div class="slide-title-block">
+      <span class="pill dark" style="background:var(--ml-yellow);color:#1A1A1A">14 &middot; Resumo para o Board</span>
+      <h2 class="h2" style="color:#fff">O que o board precisa saber em 60 segundos.</h2>
+    </div>
+    <div class="slide-meta">
+      <div class="brand-bar">
+        <span class="ml-tag" style="background:var(--ml-yellow);color:#1A1A1A">ML</span>
+        <span class="meli-name" style="color:#fff">Mercado Libre</span>
+        <span class="deck-tag">FULFILLMENT BENCH</span>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:1.25fr 1fr;gap:1.8vw;padding:1.5vh 0 0">
+
+    <div style="display:flex;flex-direction:column;gap:1.1vh">
+
+      <div style="background:#141414;border-radius:1vw;padding:1.6vh 1.6vw;border-left:3px solid var(--ml-yellow)">
+        <div style="font-family:DM Mono,monospace;font-size:0.6vw;color:var(--ml-yellow);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.45vh">Finding 1 &mdash; O mercado validou o modelo</div>
+        <div style="font-size:0.88vw;font-weight:700;color:#fff;line-height:1.3;margin-bottom:0.35vh">Amazon MCF: centenas de milhares de sellers, +40% YoY em grandes marcas. $100B de capex em 2025.</div>
+        <div style="font-size:0.72vw;color:#777;line-height:1.4">Adidas, Steve Madden, Dexcom j&aacute; usam. N&atilde;o &eacute; projeto piloto &mdash; &eacute; produto estrat&eacute;gico core da Amazon.</div>
+      </div>
+
+      <div style="background:#141414;border-radius:1vw;padding:1.6vh 1.6vw;border-left:3px solid #FF9900">
+        <div style="font-family:DM Mono,monospace;font-size:0.6vw;color:#FF9900;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.45vh">Finding 2 &mdash; Quem tenta construir do zero, falha</div>
+        <div style="font-size:0.88vw;font-weight:700;color:#fff;line-height:1.3;margin-bottom:0.35vh">Shopify gastou $2,1B e desistiu. Vendeu tudo em 2023. O modelo s&oacute; funciona para quem j&aacute; tem a rede.</div>
+        <div style="font-size:0.72vw;color:#777;line-height:1.4">MELI j&aacute; tem: 21 CDs no M&eacute;xico, infraestrutura Envios MELI, network de sellers estabelecida.</div>
+      </div>
+
+      <div style="background:#141414;border-radius:1vw;padding:1.6vh 1.6vw;border-left:3px solid #9B7FE8">
+        <div style="font-family:DM Mono,monospace;font-size:0.6vw;color:#9B7FE8;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.45vh">Finding 3 &mdash; No LATAM, o incumbente &eacute; vulner&aacute;vel</div>
+        <div style="font-size:0.88vw;font-weight:700;color:#fff;line-height:1.3;margin-bottom:0.35vh">Cubbo (startup VC, 200+ marcas) &eacute; o melhor 3PL D2C da regi&atilde;o &mdash; e n&atilde;o tem moat de marketplace.</div>
+        <div style="font-size:0.72vw;color:#777;line-height:1.4">N&atilde;o tem: dados do comprador, Envios MELI SLA, nem o equivalente de &ldquo;Buy with Prime&rdquo; para o LATAM.</div>
+      </div>
+
+      <div style="background:#141414;border-radius:1vw;padding:1.6vh 1.6vw;border-left:3px solid var(--ml-yellow)">
+        <div style="font-family:DM Mono,monospace;font-size:0.6vw;color:var(--ml-yellow);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.45vh">Finding 4 &mdash; MELI pode fazer o que Amazon n&atilde;o permite</div>
+        <div style="font-size:0.88vw;font-weight:700;color:#fff;line-height:1.3;margin-bottom:0.35vh">Amazon MCF pro&iacute;be branding customizado. MELI pode combinar escala log&iacute;stica + packaging do seller + selo Envios Meli.</div>
+        <div style="font-size:0.72vw;color:#777;line-height:1.4">Para marcas D2C, identidade no packaging &eacute; cr&iacute;tica. Nenhum player de escala permite isso hoje no LATAM.</div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1.1vh">
+
+      <div style="background:#141414;border-radius:1vw;padding:1.4vh 1.4vw">
+        <div style="font-family:DM Mono,monospace;font-size:0.6vw;color:#666;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8vh">Sinal de mercado por player</div>
+        <div style="display:flex;flex-direction:column;gap:0.55vh">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:0.75vw;color:#ccc">Amazon MCF</span>
+            <span style="background:#0D2B0D;color:#4CAF50;font-family:DM Mono,monospace;font-size:0.58vw;font-weight:600;padding:0.2vh 0.55vw;border-radius:3px">&#9679; FORTEMENTE CRESCENTE</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:0.75vw;color:#ccc">JD Logistics / Cainiao</span>
+            <span style="background:#0D2B0D;color:#4CAF50;font-family:DM Mono,monospace;font-size:0.58vw;font-weight:600;padding:0.2vh 0.55vw;border-radius:3px">&#9679; FORTEMENTE CRESCENTE</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:0.75vw;color:#ccc">Walmart MCS</span>
+            <span style="background:#2A2500;color:#D4A017;font-family:DM Mono,monospace;font-size:0.58vw;font-weight:600;padding:0.2vh 0.55vw;border-radius:3px">&#9679; CRESCENDO</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:0.75vw;color:#ccc">Cubbo (LATAM)</span>
+            <span style="background:#2A2500;color:#D4A017;font-family:DM Mono,monospace;font-size:0.58vw;font-weight:600;padding:0.2vh 0.55vw;border-radius:3px">&#9679; CRESCENDO</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:0.75vw;color:#ccc">ZEOS (Zalando)</span>
+            <span style="background:#2A2500;color:#D4A017;font-family:DM Mono,monospace;font-size:0.58vw;font-weight:600;padding:0.2vh 0.55vw;border-radius:3px">&#9679; MODERADO</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:0.75vw;color:#ccc">Shopify / Flexport</span>
+            <span style="background:#2A0A0A;color:#E57373;font-family:DM Mono,monospace;font-size:0.58vw;font-weight:600;padding:0.2vh 0.55vw;border-radius:3px">&#9679; RETRAINDO</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--ml-yellow);border-radius:1vw;padding:1.6vh 1.6vw;flex:1">
+        <div style="font-family:DM Mono,monospace;font-size:0.6vw;color:#444;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.7vh">Recomenda&ccedil;&atilde;o para o board</div>
+        <div style="font-size:1vw;font-weight:800;color:#1A1A1A;line-height:1.3;margin-bottom:0.9vh">O mercado global prova que o modelo &eacute; vi&aacute;vel. MELI est&aacute; na melhor posi&ccedil;&atilde;o estrutural do LATAM para executar.</div>
+        <div style="display:flex;flex-direction:column;gap:0.5vh">
+          <div style="display:flex;align-items:flex-start;gap:0.5vw">
+            <span style="color:#1A1A1A;font-size:0.78vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span>
+            <span style="font-size:0.72vw;color:#333;line-height:1.35">Infraestrutura j&aacute; existe &mdash; custo marginal de adicionar canal OFF &eacute; baixo</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.5vw">
+            <span style="color:#1A1A1A;font-size:0.78vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span>
+            <span style="font-size:0.72vw;color:#333;line-height:1.35">Concorr&ecirc;ncia local (Cubbo) n&atilde;o tem moat de marketplace &mdash; janela de vantagem aberta</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.5vw">
+            <span style="color:#1A1A1A;font-size:0.78vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span>
+            <span style="font-size:0.72vw;color:#333;line-height:1.35">Modelo de fee por envio (sem comiss&atilde;o) &eacute; o padr&atilde;o global &mdash; vi&aacute;vel para MELI</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.5vw">
+            <span style="color:#1A1A1A;font-size:0.78vw;flex-shrink:0;margin-top:0.05vh">&#10003;</span>
+            <span style="font-size:0.72vw;color:#333;line-height:1.35">Pr&oacute;ximo passo: fechar modelo operativo + decis&otilde;es de neg&oacute;cio para MBR Junho 2026</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+</div>
+
+<!-- NAV -->
+<div class="counter mono"><span id="cur">01</span> / <span id="tot">18</span></div>
+<div class="help">← → Navegar · F Fullscreen</div>
+<div class="nav">
+  <button id="prev" aria-label="Anterior">‹</button>
+  <button id="next" aria-label="Próximo">›</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let i = 0;
+const cur = document.getElementById('cur');
+const tot = document.getElementById('tot');
+tot.textContent = String(slides.length).padStart(2,'0');
+function show(n){
+  slides[i].classList.remove('active');
+  i = (n + slides.length) % slides.length;
+  slides[i].classList.add('active');
+  cur.textContent = String(i+1).padStart(2,'0');
+  if (slides[i].classList.contains('dark')) document.body.classList.add('dark-active');
+  else document.body.classList.remove('dark-active');
+}
+document.getElementById('prev').onclick = () => show(i-1);
+document.getElementById('next').onclick = () => show(i+1);
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === ' '|| e.key === 'PageDown') show(i+1);
+  else if(e.key === 'ArrowLeft' || e.key === 'PageUp') show(i-1);
+  else if(e.key.toLowerCase() === 'f'){
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+  else if(e.key === 'Home') show(0);
+  else if(e.key === 'End') show(slides.length-1);
+});
+// init
+if (slides[0].classList.contains('dark')) document.body.classList.add('dark-active');
+</script>
+</body>
+</html>
+
+<!-- NAV -->
+<div class="counter mono"><span id="cur">01</span> / <span id="tot">18</span></div>
+<div class="help">← → Navegar · F Fullscreen</div>
+<div class="nav">
+  <button id="prev" aria-label="Anterior">‹</button>
+  <button id="next" aria-label="Próximo">›</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let i = 0;
+const cur = document.getElementById('cur');
+const tot = document.getElementById('tot');
+tot.textContent = String(slides.length).padStart(2,'0');
+function show(n){
+  slides[i].classList.remove('active');
+  i = (n + slides.length) % slides.length;
+  slides[i].classList.add('active');
+  cur.textContent = String(i+1).padStart(2,'0');
+  if (slides[i].classList.contains('dark')) document.body.classList.add('dark-active');
+  else document.body.classList.remove('dark-active');
+}
+document.getElementById('prev').onclick = () => show(i-1);
+document.getElementById('next').onclick = () => show(i+1);
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === ' '|| e.key === 'PageDown') show(i+1);
+  else if(e.key === 'ArrowLeft' || e.key === 'PageUp') show(i-1);
+  else if(e.key.toLowerCase() === 'f'){
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+  else if(e.key === 'Home') show(0);
+  else if(e.key === 'End') show(slides.length-1);
+});
+// init
+if (slides[0].classList.contains('dark')) document.body.classList.add('dark-active');
+</script>
+</body>
+</html>
+
